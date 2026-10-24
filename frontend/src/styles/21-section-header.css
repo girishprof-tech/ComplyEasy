@@ -1,0 +1,51 @@
+/* ---------- section header ---------- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-head h2 { font-size: 20px; }
+
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.crumb {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.crumb a:hover { color: var(--brand); }
+
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(20, 36, 32, 0.35);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 28px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(20, 36, 32, 0.25);
+}
+
+.center-page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

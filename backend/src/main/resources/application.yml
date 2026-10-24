@@ -1,0 +1,26 @@
+server:
+  port: ${PORT:8787}
+
+spring:
+  application:
+    name: venture
+  config:
+    # Same .env file the Node app used (repo root). Real environment variables win.
+    import:
+      - optional:file:../.env[.properties]
+      - optional:file:./.env[.properties]
+  main:
+    banner-mode: "off"
+
+venture:
+  storage:
+    data-dir: ${VENTURE_DATA_DIR:./data}
+  security:
+    # Leave empty to generate a random secret at startup (sessions then end on restart).
+    session-secret: ${SESSION_SECRET:}
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.7-flash}
+  web:
+    # Built frontend to serve (with SPA fallback). Ignored if the folder does not exist.
+    dist-dir: ${VENTURE_WEB_DIST:../frontend/dist}

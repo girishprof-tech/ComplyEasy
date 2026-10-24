@@ -1,0 +1,38 @@
+/* ---------- status badges (the signature ledger motif) ---------- */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-active { background: var(--active-tint); color: var(--active); }
+.status-expiring_soon { background: var(--soon-tint); color: var(--soon); }
+.status-expired { background: var(--expired-tint); color: var(--expired); }
+
+.login-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  padding: 2px 9px;
+  text-transform: capitalize;
+}
+.login-status-badge.active { color: var(--active); border-color: var(--active); }
+.login-status-badge.invited { color: var(--soon); border-color: var(--soon); }

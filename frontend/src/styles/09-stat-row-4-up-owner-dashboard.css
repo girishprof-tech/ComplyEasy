@@ -1,0 +1,6 @@
+/* ---------- stat row 4-up (owner dashboard) ---------- */
+
+.stat-row-4 { grid-template-columns: repeat(4, 1fr) !important; }
+@media (max-width: 720px) {
+  .stat-row-4 { grid-template-columns: 1fr 1fr !important; }
+}

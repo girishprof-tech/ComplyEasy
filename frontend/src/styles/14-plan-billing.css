@@ -1,0 +1,35 @@
+/* ---------- plan / billing ---------- */
+
+.plan-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+.plan-badge.free { background: var(--paper); border: 1px solid var(--hairline); color: var(--muted); }
+.plan-badge.pro { background: var(--brand); color: #fff; }
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.plan-card {
+  border: 1.5px solid var(--hairline);
+  border-radius: 12px;
+  padding: 20px;
+  background: var(--surface);
+}
+.plan-card.current { border-color: var(--brand); background: var(--brand-tint); }
+.plan-card h3 { font-size: 16px; margin-bottom: 4px; }
+.plan-card .plan-price { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+.plan-card ul { margin: 0 0 16px; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
+.plan-card li { margin-bottom: 4px; }
+
+@media (max-width: 560px) {
+  .plan-grid { grid-template-columns: 1fr; }
+}

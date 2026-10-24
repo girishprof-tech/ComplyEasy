@@ -1,0 +1,29 @@
+<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f6f5c"/>
+      <stop offset="100%" stop-color="#14503f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="240" height="240" rx="48" fill="url(#bg)"/>
+
+  <!-- ledger sheet -->
+  <rect x="56" y="48" width="128" height="152" rx="10" fill="#f5f6f3"/>
+
+  <!-- ledger rule lines -->
+  <line x1="76" y1="84" x2="164" y2="84" stroke="#dde3de" stroke-width="4" stroke-linecap="round"/>
+  <line x1="76" y1="110" x2="164" y2="110" stroke="#dde3de" stroke-width="4" stroke-linecap="round"/>
+  <line x1="76" y1="136" x2="140" y2="136" stroke="#dde3de" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- status dots, echoing the app's status badges -->
+  <circle cx="76" cy="162" r="6" fill="#1f8a5c"/>
+  <line x1="90" y1="162" x2="150" y2="162" stroke="#dde3de" stroke-width="4" stroke-linecap="round"/>
+
+  <circle cx="76" cy="184" r="6" fill="#b9711a"/>
+  <line x1="90" y1="184" x2="130" y2="184" stroke="#dde3de" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- checkmark badge, top-right corner of the sheet -->
+  <circle cx="172" cy="60" r="22" fill="#1f8a5c" stroke="#f5f6f3" stroke-width="4"/>
+  <path d="M162 60 L169 67 L183 52" stroke="#f5f6f3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

@@ -1,0 +1,63 @@
+/* ---------- suggestions ("Areas to Review") ---------- */
+
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.suggestion-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.suggestion-main { flex: 1; min-width: 0; }
+
+.suggestion-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.suggestion-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+.suggestion-category {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.suggestion-status {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+.suggestion-status-review { background: var(--paper); border: 1px solid var(--hairline); color: var(--muted); }
+.suggestion-status-documented { background: var(--active-tint); color: var(--active); }
+.suggestion-status-expiring { background: var(--soon-tint); color: var(--soon); }
+.suggestion-status-expired { background: var(--expired-tint); color: var(--expired); }
+
+.suggestion-reason { font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+
+.suggestions-disclaimer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .suggestion-row { flex-direction: column; align-items: stretch; }
+}

@@ -1,0 +1,9 @@
+/* ---------- empty states ---------- */
+
+.empty-state {
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--muted);
+}
+.empty-state h3 { color: var(--ink); margin-bottom: 6px; }
+.empty-state p { max-width: 360px; margin: 0 auto 20px; }

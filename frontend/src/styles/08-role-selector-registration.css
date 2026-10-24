@@ -1,0 +1,31 @@
+/* ---------- role selector (registration) ---------- */
+
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.role-card {
+  border: 1.5px solid var(--hairline);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.role-card:hover { border-color: var(--brand); background: var(--brand-tint); }
+.role-card h3 { font-size: 15.5px; margin-bottom: 6px; }
+.role-card p { font-size: 13px; color: var(--muted); margin: 0; }
+.role-card .role-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--brand-tint); color: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 700; margin-bottom: 12px;
+}
+
+@media (max-width: 560px) {
+  .role-grid { grid-template-columns: 1fr; }
+}

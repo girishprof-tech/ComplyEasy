@@ -1,0 +1,6 @@
+/* ---------- health summary card ---------- */
+
+.health-card { margin-bottom: 24px; }
+.health-score { display: flex; align-items: baseline; gap: 2px; }
+.health-score-value { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--brand); }
+.health-score-max { font-size: 13px; color: var(--muted); }

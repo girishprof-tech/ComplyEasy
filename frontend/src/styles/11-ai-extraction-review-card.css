@@ -1,0 +1,50 @@
+/* ---------- AI extraction review card ---------- */
+
+.ai-review-card {
+  border: 1px solid var(--brand);
+  background: var(--brand-tint);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.ai-review-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin-bottom: 10px;
+}
+
+.demo-badge {
+  background: var(--surface);
+  border: 1px solid var(--brand);
+  color: var(--brand-dark);
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-size: 10.5px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+.ai-review-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  margin: 0;
+}
+.ai-review-grid dt { font-size: 12px; color: var(--muted); font-weight: 600; }
+.ai-review-grid dd { font-size: 13.5px; color: var(--ink); margin: 0; }
+
+.ai-review-summary {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(31, 111, 92, 0.2);
+}

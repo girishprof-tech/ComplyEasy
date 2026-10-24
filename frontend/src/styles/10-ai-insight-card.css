@@ -1,0 +1,22 @@
+/* ---------- AI insight card ---------- */
+
+.ai-insight {
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  border: 1px solid var(--hairline);
+  margin-top: 16px;
+}
+.ai-insight-ok { background: var(--active-tint); border-color: transparent; }
+.ai-insight-warn { background: var(--soon-tint); border-color: transparent; }
+.ai-insight-risk { background: var(--expired-tint); border-color: transparent; }
+
+.ai-insight-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin-bottom: 4px;
+}
+.ai-insight-headline { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.ai-insight-body { font-size: 13px; color: var(--ink-soft); }

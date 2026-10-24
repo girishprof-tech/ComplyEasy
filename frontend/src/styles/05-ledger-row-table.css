@@ -1,0 +1,33 @@
+/* ---------- ledger row table ---------- */
+
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ledger thead th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.ledger tbody tr {
+  border-bottom: 1px solid var(--hairline);
+  transition: background 100ms ease;
+}
+.ledger tbody tr:last-child { border-bottom: none; }
+.ledger tbody tr.clickable { cursor: pointer; }
+.ledger tbody tr.clickable:hover { background: var(--paper); }
+
+.ledger td {
+  padding: 14px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.ledger .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-soft); }

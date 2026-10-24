@@ -1,0 +1,43 @@
+/* ---------- schemes / subsidies ---------- */
+
+.scheme-list { display: flex; flex-direction: column; gap: 12px; }
+
+.scheme-row {
+  padding: 12px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.scheme-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.scheme-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+.scheme-benefit {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+.scheme-source {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.scheme-source a { color: var(--brand); text-decoration: none; }
+.scheme-source a:hover { text-decoration: underline; }
+
+.scheme-discover-row { margin-top: 16px; }
+
+.scheme-discovery-result {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px dashed var(--hairline);
+  border-radius: var(--radius);
+  background: var(--paper);
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "functionDeclarations": [
+      {
+        "name": "get_business_profile",
+        "description": "Get the business's own saved profile (name, type, industry, location, registration id). Use this to understand the business before answering — do not ask the user for something already in this profile."
+      },
+      {
+        "name": "get_compliance_items",
+        "description": "List all compliance items on file for the business, with their current status."
+      },
+      {
+        "name": "get_expiring_compliances",
+        "description": "List compliance items expiring soon or already expired."
+      },
+      {
+        "name": "get_scheme_matches",
+        "description": "Get government schemes/subsidies from Venture's own verified records that may be relevant to this business based on its profile."
+      },
+      {
+        "name": "discover_current_schemes",
+        "description": "Search the live web for current government schemes/subsidies beyond Venture's verified records. Use this when the user asks about \"other\", \"additional\", \"latest\", or \"any other\" schemes not already covered by get_scheme_matches. Results are unverified and must be presented as discovered via search, not as confirmed Venture records."
+      },
+      {
+        "name": "get_sustainability_profile",
+        "description": "Get the deterministic baseline sustainability recommendations plus any user-provided context (electricity, transport, waste, water notes) already saved for this business. Combine this with anything the user says in the conversation to personalize suggestions — do not just repeat the baseline list verbatim if you have more specific information to work with."
+      }
+    ]
+  }
+]

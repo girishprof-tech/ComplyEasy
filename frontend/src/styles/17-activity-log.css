@@ -1,0 +1,22 @@
+/* ---------- activity log ---------- */
+
+.activity-group { margin-bottom: 18px; }
+.activity-group:last-child { margin-bottom: 0; }
+
+.activity-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.activity-items { list-style: none; margin: 0; padding: 0; }
+.activity-items li {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.activity-items li:last-child { border-bottom: none; }

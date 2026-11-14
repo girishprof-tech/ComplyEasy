@@ -3,12 +3,14 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authApi } from '@/api';
 import { homePathFor, useAuth } from '@/features/auth/state/AuthProvider';
 import { NotificationsBell } from '@/features/notifications/NotificationsBell';
+import { useDemoAds } from '@/shared/hooks/useDemoAds';
 
 const navClass = ({ isActive }: { isActive: boolean }) => `nav-link${isActive ? ' active' : ''}`;
 
 export function TopBar() {
   const { me, setMe } = useAuth();
   const navigate = useNavigate();
+  const { adsVisible, toggleAds } = useDemoAds();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -62,6 +64,33 @@ export function TopBar() {
             <NavLink to="/settings" className={navClass}>
               Settings
             </NavLink>
+
+            {/* Quick 1-Click Ads Toggle for presentation to judges */}
+            <button
+              type="button"
+              onClick={toggleAds}
+              className="ads-demo-toggle-btn"
+              title={adsVisible ? 'Click to hide sponsor demo ads for judge presentation' : 'Click to show sponsor demo ads'}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 11px',
+                borderRadius: 20,
+                border: adsVisible ? '1.5px solid #ff007f' : '1px solid var(--hairline)',
+                background: adsVisible ? 'rgba(255, 0, 127, 0.08)' : 'var(--surface)',
+                color: adsVisible ? '#ff007f' : 'var(--ink-soft)',
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: adsVisible ? '0 0 10px rgba(255, 0, 127, 0.18)' : 'none',
+                transition: 'all 140ms ease',
+              }}
+            >
+              <span style={{ fontSize: 13 }}>{adsVisible ? '📢' : '🔇'}</span>
+              <span>{adsVisible ? 'Ads: ON' : 'Ads: OFF'}</span>
+            </button>
+
             <NotificationsBell />
 
             {/* User Profile Dropdown Menu */}
@@ -186,6 +215,37 @@ export function TopBar() {
                     >
                       ⚡ Subscription Plan
                     </Link>
+
+                    <div style={{ height: 1, background: 'var(--hairline)', margin: '4px 6px' }} />
+
+                    {/* Toggle Ads in dropdown as well */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '8px 12px',
+                        fontSize: 12.5,
+                      }}
+                    >
+                      <span style={{ color: 'var(--ink-soft)' }}>Presentation Ads</span>
+                      <button
+                        type="button"
+                        onClick={toggleAds}
+                        style={{
+                          padding: '3px 8px',
+                          fontSize: 10.5,
+                          fontWeight: 800,
+                          borderRadius: 6,
+                          border: 'none',
+                          background: adsVisible ? '#ff007f' : 'var(--hairline)',
+                          color: adsVisible ? '#fff' : 'var(--ink-soft)',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {adsVisible ? 'ON' : 'OFF'}
+                      </button>
+                    </div>
 
                     <div style={{ height: 1, background: 'var(--hairline)', margin: '4px 6px' }} />
 

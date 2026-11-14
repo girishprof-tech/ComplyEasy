@@ -33,3 +33,4 @@ export function useDemoAds() {
 
   return { adsVisible: visible, toggleAds: toggle, setAdsVisible: (v: boolean) => { setVisible(v); setDemoAdsVisible(v); } };
 }
+

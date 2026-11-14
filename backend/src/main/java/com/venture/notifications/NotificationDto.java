@@ -5,6 +5,7 @@ import com.venture.common.ItemStatus;
 
 public record NotificationDto(
         long id,
+        long itemId,
         String type,
         long clientId,
         String businessName,

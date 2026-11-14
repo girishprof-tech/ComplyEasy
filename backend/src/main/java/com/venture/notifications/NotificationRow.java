@@ -4,6 +4,7 @@ package com.venture.notifications;
 record NotificationRow(
         long id,
         long clientId,
+        long itemId,
         String type,
         String createdAt,
         String readAt,

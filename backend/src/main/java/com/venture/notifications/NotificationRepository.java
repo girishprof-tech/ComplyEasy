@@ -38,6 +38,7 @@ class NotificationRepository {
                 (rs, i) -> new NotificationRow(
                         rs.getLong("id"),
                         rs.getLong("client_id"),
+                        rs.getLong("compliance_item_id"),
                         rs.getString("type"),
                         rs.getString("created_at"),
                         rs.getString("read_at"),
@@ -51,6 +52,12 @@ class NotificationRepository {
         jdbc.update(
                 "UPDATE notifications SET read_at = datetime('now') WHERE id = ? AND user_id = ?",
                 notificationId,
+                userId);
+    }
+
+    void markAllRead(long userId) {
+        jdbc.update(
+                "UPDATE notifications SET read_at = datetime('now') WHERE user_id = ? AND read_at IS NULL",
                 userId);
     }
 }

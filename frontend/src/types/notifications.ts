@@ -4,6 +4,7 @@ export type NotificationType = 'expiring_30' | 'expiring_15' | 'expiring_7' | 'e
 
 export interface AppNotification {
   id: number;
+  itemId: number;
   type: NotificationType;
   clientId: number;
   businessName: string;

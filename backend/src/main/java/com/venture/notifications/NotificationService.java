@@ -55,6 +55,10 @@ public class NotificationService {
         notifications.markRead(user.userId(), notificationId);
     }
 
+    public void markAllRead(SessionUser user) {
+        notifications.markAllRead(user.userId());
+    }
+
     /** Syncs only the businesses this user can see, so nothing is generated for anyone else's. */
     private void syncForUser(SessionUser user) {
         List<Business> visible = new ArrayList<>();
@@ -100,6 +104,7 @@ public class NotificationService {
         };
         return new NotificationDto(
                 row.id(),
+                row.itemId(),
                 row.type(),
                 row.clientId(),
                 row.businessName(),

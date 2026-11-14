@@ -28,4 +28,10 @@ public class NotificationController {
         service.markRead(user, notificationId);
         return Map.of("ok", true);
     }
+
+    @PostMapping("/read-all")
+    public Map<String, Boolean> markAllRead(SessionUser user) {
+        service.markAllRead(user);
+        return Map.of("ok", true);
+    }
 }

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { homePathFor, useAuth } from '@/features/auth/state/AuthProvider';
+import { PageLoading } from '@/shared/components/PageStates';
 
 const BOARD = [
   { client: 'Ravi Textiles', item: 'Trade License', when: '23 days overdue', tone: 'expired', run: 100 },
@@ -10,6 +12,11 @@ const BOARD = [
 const LABEL: Record<string, string> = { expired: 'Expired', expiring_soon: 'Expiring soon', active: 'Active' };
 
 export function LandingPage() {
+  const { me, loading } = useAuth();
+
+  if (loading) return <PageLoading />;
+  if (me) return <Navigate to={homePathFor(me)} replace />;
+
   return (
     <>
       <section className="lp-hero">

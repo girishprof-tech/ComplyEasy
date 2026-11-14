@@ -10,7 +10,7 @@ import { ClientsPage } from '@/features/clients/pages/ClientsPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { LandingPage } from '@/features/landing/LandingPage';
 import { AppShell } from './layout/AppShell';
-import { RequireAuth, RequireRole } from './guards/RouteGuards';
+import { RequireAuth, RequireRole, RedirectIfAuthenticated } from './guards/RouteGuards';
 
 function NotFound() {
   return (
@@ -27,9 +27,14 @@ export const router = createBrowserRouter([
   {
     element: <AppShell />,
     children: [
-      { path: '/', element: <LandingPage /> },
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
+      {
+        element: <RedirectIfAuthenticated />,
+        children: [
+          { path: '/', element: <LandingPage /> },
+          { path: '/login', element: <LoginPage /> },
+          { path: '/register', element: <RegisterPage /> },
+        ],
+      },
       { path: '/activate', element: <ActivatePage /> },
       {
         element: <RequireRole role="accountant" />,

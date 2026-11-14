@@ -1,43 +1,639 @@
-/* ---------- schemes / subsidies ---------- */
+/* ---------- business sub-navigation tabs & tab views ---------- */
 
-.scheme-list { display: flex; flex-direction: column; gap: 12px; }
 
-.scheme-row {
-  padding: 12px 14px;
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-}
-
-.scheme-name-row {
+.business-subnav {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--hairline);
+  padding-bottom: 2px;
+  overflow-x: auto;
 }
 
-.scheme-name { font-size: 14px; font-weight: 600; color: var(--ink); }
 
-.scheme-benefit {
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin: 6px 0 0;
-}
+  .subnav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+    transition: all 160ms ease;
+  }
 
-.scheme-source {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 8px;
-}
-.scheme-source a { color: var(--brand); text-decoration: none; }
-.scheme-source a:hover { text-decoration: underline; }
+  .subnav-tab:hover {
+    color: var(--ink);
+    background: var(--paper);
+  }
 
-.scheme-discover-row { margin-top: 16px; }
+  .subnav-tab.active {
+    color: var(--brand-dark);
+    font-weight: 700;
+  }
 
-.scheme-discovery-result {
-  margin-top: 14px;
-  padding: 14px 16px;
-  border: 1px dashed var(--hairline);
-  border-radius: var(--radius);
-  background: var(--paper);
-}
+  .subnav-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand);
+    border-radius: 3px 3px 0 0;
+  }
+
+  .subnav-tab-icon {
+    font-size: 16px;
+  }
+
+  .subnav-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--hairline);
+    color: var(--ink-soft);
+  }
+
+  .subnav-tab.active .subnav-badge {
+    background: var(--brand-tint);
+    color: var(--brand-dark);
+  }
+
+  .subnav-badge-warn {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  /* ---------- tab hero cards ---------- */
+
+  .tab-view-container {
+    display: flex;
+    flex-direction: column;
+    animation: page-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .tab-hero-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, rgba(31, 111, 92, 0.08) 0%, var(--surface) 100%);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    margin-bottom: 24px;
+  }
+
+    .tab-hero-green {
+      background: linear-gradient(135deg, rgba(60, 127, 60, 0.09) 0%, var(--surface) 100%);
+    }
+
+    .tab-hero-amber {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.09) 0%, var(--surface) 100%);
+    }
+
+    .tab-hero-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tab-hero-copy h1 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin: 4px 0 6px;
+    }
+
+    .tab-hero-desc {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      max-width: 640px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .tab-hero-action {
+      flex-shrink: 0;
+    }
+
+    /* ---------- scheme filter & search bar ---------- */
+
+    .scheme-filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .scheme-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: var(--surface);
+    }
+
+    .scheme-category-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      border: 1px solid var(--hairline);
+      background: var(--surface);
+      color: var(--ink-soft);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 140ms ease;
+    }
+
+    .pill-btn:hover {
+      background: var(--paper);
+      border-color: var(--muted);
+    }
+
+    .pill-btn.active {
+      background: var(--brand-dark);
+      color: #fff;
+      border-color: var(--brand-dark);
+    }
+
+    /* ---------- schemes grid & card styling ---------- */
+
+    .schemes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+
+    .scheme-card {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .scheme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .scheme-card-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin: 0 0 6px;
+    }
+
+    .scheme-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+
+    .scheme-tag-category {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--brand-dark);
+      background: var(--brand-tint);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+      .scheme-tag-match {
+        font-size: 11px;
+        font-weight: 600;
+        color: #137333;
+        background: #e6f4ea;
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+
+      .scheme-tag-info {
+        font-size: 11px;
+        font-weight: 600;
+        color: #b45309;
+        background: #fef3c7;
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+
+      .scheme-benefit-box {
+        padding: 10px 14px;
+        background: rgba(31, 111, 92, 0.06);
+        border-left: 3px solid var(--brand);
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+
+      .scheme-benefit-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--brand);
+        margin-bottom: 2px;
+      }
+
+      .scheme-benefit-text {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.4;
+      }
+
+      .scheme-card-desc {
+        font-size: 13px;
+        color: var(--ink-soft);
+        line-height: 1.5;
+        margin: 0 0 16px;
+        flex: 1;
+      }
+
+        .scheme-card-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding-top: 14px;
+          border-top: 1px solid var(--hairline);
+          font-size: 12px;
+        }
+
+        .scheme-source-meta {
+          color: var(--muted);
+        }
+
+
+        .scheme-source-meta a {
+          color: var(--brand);
+          font-weight: 600;
+          text-decoration: none;
+        }
+
+          .scheme-source-meta a:hover {
+            text-decoration: underline;
+          }
+
+          .scheme-checked-date {
+            display: block;
+            font-size: 11px;
+            margin-top: 2px;
+          }
+
+          .btn-sm {
+            padding: 5px 12px;
+            font-size: 12px;
+          }
+
+          /* AI Discovery Card */
+          .scheme-discovery-card {
+            padding: 18px 20px;
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            background: var(--surface);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+          }
+
+          .scheme-discovery-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+          }
+
+          .scheme-ai-badge {
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--brand-dark);
+            background: var(--brand-tint);
+            padding: 3px 10px;
+            border-radius: 12px;
+          }
+
+          .scheme-discovery-tag {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
+          }
+
+          .scheme-discovery-summary {
+            font-size: 13.5px;
+            color: var(--ink);
+            line-height: 1.5;
+            margin: 0 0 12px;
+          }
+
+          .scheme-discovery-sources {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+          }
+
+          .scheme-sources-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+          }
+
+          .scheme-source-pill {
+            font-size: 12px;
+            color: var(--brand);
+            background: var(--paper);
+            border: 1px solid var(--hairline);
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+          }
+
+          .scheme-source-pill:hover {
+            background: var(--brand-tint);
+            text-decoration: underline;
+          }
+
+          /* ---------- Sustainability View styles ---------- */
+
+          .sustainability-input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+          }
+
+          .sustainability-input-cell {
+            background: var(--paper);
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--hairline);
+          }
+
+          .sustainability-input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+          }
+
+          .sustainability-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+          }
+
+          .sustainability-pillar-card {
+            padding: 14px 16px;
+            border: 1px solid var(--hairline);
+            border-radius: 10px;
+            background: var(--paper);
+          }
+
+          .pillar-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+          }
+
+          .pillar-content {
+            font-size: 12.5px;
+            color: var(--ink-soft);
+            margin: 0;
+            line-height: 1.4;
+          }
+
+          .pillar-empty {
+            font-size: 12px;
+            color: var(--muted);
+            font-style: italic;
+          }
+
+          .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+          }
+
+          .recommendation-card {
+            padding: 18px 20px;
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+          }
+
+          .recommendation-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+          }
+
+          .recommendation-category-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #137333;
+            background: #e6f4ea;
+            padding: 2px 8px;
+            border-radius: 6px;
+          }
+
+          .recommendation-impact-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--brand-dark);
+          }
+
+          .recommendation-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 6px;
+          }
+
+          .recommendation-desc {
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.4;
+            margin: 0 0 12px;
+            flex: 1;
+          }
+
+          .recommendation-benefit-box {
+            padding: 8px 12px;
+            background: rgba(60, 127, 60, 0.07);
+            border-left: 3px solid #3c7f3c;
+            border-radius: 4px;
+            font-size: 12.5px;
+          }
+
+          .recommendation-benefit-title {
+            font-weight: 700;
+            color: #276727;
+            display: block;
+            margin-bottom: 2px;
+          }
+
+          .recommendation-benefit-text {
+            color: var(--ink);
+          }
+
+          /* ---------- Areas to Review View styles ---------- */
+
+          .review-badge-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            padding: 6px 14px;
+            border-radius: 20px;
+          }
+
+          .review-counter-number {
+            font-size: 16px;
+            font-weight: 800;
+            color: #b45309;
+          }
+
+          .review-counter-text {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #92400e;
+          }
+
+          .review-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+          }
+
+          .review-audit-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 22px;
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 140ms ease, box-shadow 140ms ease;
+          }
+
+          .review-audit-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+          }
+
+          .review-card-left {
+            flex: 1;
+            min-width: 0;
+          }
+
+          .review-card-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+          }
+
+          .review-card-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0;
+          }
+
+          .review-reason-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 4px;
+          }
+
+          .review-reason-icon {
+            font-size: 13px;
+            margin-top: 1px;
+          }
+
+          .review-card-reason {
+            font-size: 13px;
+            color: var(--ink-soft);
+            margin: 0;
+            line-height: 1.45;
+          }
+
+          .review-card-right {
+            flex-shrink: 0;
+          }
+
+          .documented-check-badge {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--active);
+            background: var(--active-tint);
+            padding: 6px 14px;
+            border-radius: 20px;
+          }
+
+          @media (max-width: 640px) {
+            .tab-hero-card {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+
+            .review-audit-card {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+
+            .schemes-grid {
+              grid-template-columns: 1fr;
+            }
+          }

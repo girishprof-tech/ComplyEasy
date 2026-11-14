@@ -69,63 +69,73 @@ export function DashboardPage() {
         ]}
       />
 
+      {/* Cinematic Wide GTA VI Billboard Banner */}
+      <AdBanner account={account} variant="wide" slot={0} />
+
       <div className="layout">
-      <div className="card card-pad">
-        <div className="section-head">
-          <h2>Most urgent, across all clients</h2>
-          {clientNames.length > 0 && (
-            <select
-              value={filterClient}
-              onChange={(e) => setFilterClient(e.target.value)}
-              style={{ border: '1px solid var(--hairline)', borderRadius: 8, padding: '7px 10px', fontSize: 13 }}
-            >
-              <option value="all">All clients</option>
-              {clientNames.map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
-          )}
+        <div className="main-col">
+          <div className="card card-pad">
+            <div className="section-head">
+              <h2>Most urgent, across all clients</h2>
+              {clientNames.length > 0 && (
+                <select
+                  value={filterClient}
+                  onChange={(e) => setFilterClient(e.target.value)}
+                  style={{ border: '1px solid var(--hairline)', borderRadius: 8, padding: '7px 10px', fontSize: 13 }}
+                >
+                  <option value="all">All clients</option>
+                  {clientNames.map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            {filtered.length === 0 ? (
+              <div className="empty-state">
+                <h3>Nothing urgent right now</h3>
+                <p>Items expiring within 30 days, or already expired, will show up here across every client you manage.</p>
+              </div>
+            ) : (
+              <table className="ledger">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Item</th>
+                    <th>Expires</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((item) => (
+                    <tr key={item.id} className="clickable" onClick={() => navigate(`/clients/${item.clientId}`)}>
+                      <td>{item.clientName}</td>
+                      <td className="num">{item.name}</td>
+                      <td className="num">
+                        {item.expiryDate} (
+                        {item.daysUntilExpiry < 0 ? `${Math.abs(item.daysUntilExpiry)}d ago` : `in ${item.daysUntilExpiry}d`})
+                      </td>
+                      <td>
+                        <StatusBadge status={item.status} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          {/* Interactive GTA VI 4K Trailer Teaser */}
+          <AdBanner account={account} variant="trailer" />
         </div>
 
-        {filtered.length === 0 ? (
-          <div className="empty-state">
-            <h3>Nothing urgent right now</h3>
-            <p>Items expiring within 30 days, or already expired, will show up here across every client you manage.</p>
-          </div>
-        ) : (
-          <table className="ledger">
-            <thead>
-              <tr>
-                <th>Client</th>
-                <th>Item</th>
-                <th>Expires</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((item) => (
-                <tr key={item.id} className="clickable" onClick={() => navigate(`/clients/${item.clientId}`)}>
-                  <td>{item.clientName}</td>
-                  <td className="num">{item.name}</td>
-                  <td className="num">
-                    {item.expiryDate} (
-                    {item.daysUntilExpiry < 0 ? `${Math.abs(item.daysUntilExpiry)}d ago` : `in ${item.daysUntilExpiry}d`})
-                  </td>
-                  <td>
-                    <StatusBadge status={item.status} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-      <aside className="rail">
-        <HealthSummaryCard title="Portfolio Health" health={summary.portfolioHealth} />
-        <AdBanner account={account} slot={0} />
-      </aside>
+        <aside className="rail">
+          <HealthSummaryCard title="Portfolio Health" health={summary.portfolioHealth} />
+          {/* Realistic GTA VI Box Art / Cover Skyscraper */}
+          <AdBanner account={account} variant="square" slot={1} />
+        </aside>
       </div>
     </div>
   );

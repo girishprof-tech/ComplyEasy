@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { clientScope, clientsApi } from '@/api';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { clientScope, clientsApi, scopedApi } from '@/api';
 import type { Business } from '@/types';
 import { AdBanner } from '@/shared/components/AdBanner';
 import { useAccount } from '@/features/account/hooks/useAccount';
@@ -12,8 +12,11 @@ import { ComplianceItemsTable } from '@/features/compliance/components/Complianc
 import { useComplianceItems } from '@/features/compliance/hooks/useComplianceItems';
 import { useItemEditor } from '@/features/compliance/hooks/useItemEditor';
 import { ActivityCard } from '@/features/insights/components/ActivityLog';
-import { InsightsPanel } from '@/features/insights/components/InsightsPanel';
 import { useBusinessInsights } from '@/features/insights/hooks/useBusinessInsights';
+import { BusinessSubNav, type BusinessTab } from '@/features/insights/components/BusinessSubNav';
+import { GovtSchemesView } from '@/features/insights/components/GovtSchemesView';
+import { SustainabilityView } from '@/features/insights/components/SustainabilityView';
+import { AreasToReviewView } from '@/features/insights/components/AreasToReviewView';
 import { ClientHeader } from '../components/ClientHeader';
 
 /** An accountant's view of one client: profile, insights, compliance items, activity. */
@@ -21,6 +24,8 @@ export function ClientDetailPage() {
   const { id } = useParams();
   const clientId = Number(id);
   const scope = useMemo(() => clientScope(clientId), [clientId]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tab = (searchParams.get('tab') as BusinessTab) || 'compliance';
 
   const [client, setClient] = useState<Business | null>(null);
   const [clientError, setClientError] = useState<string | null>(null);
@@ -61,6 +66,14 @@ export function ClientDetailPage() {
     }
   }
 
+  function handleTabChange(nextTab: BusinessTab) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('tab', nextTab);
+      return next;
+    });
+  }
+
   const error = actionError ?? clientError ?? itemsState.error;
   if (error && !client) return <PageError message={error} />;
   if (!client) return <PageLoading />;
@@ -75,35 +88,76 @@ export function ClientDetailPage() {
 
       {error && <div className="form-error">{error}</div>}
 
-      <div className="layout">
-        <div className="main-col">
-          <div className="section-head">
-            <h2 style={{ fontSize: 20 }}>Compliance items</h2>
-            <button className="btn btn-primary" onClick={() => editor.openCreate()}>
-              Add item
-            </button>
-          </div>
-          <ComplianceItemsTable
-            scope={scope}
-            items={itemsState.items}
-            showIssued
-            emptyDescription="Add this client's licenses, registrations, or certificates with their expiry dates to start tracking them."
-            onAdd={() => editor.openCreate()}
-            onEdit={editor.openEdit}
-            onDelete={editor.remove}
-          />
-          <ActivityCard entries={insights.activity} />
-        </div>
-        <aside className="rail">
-          <AdBanner account={account} slot={1} />
-        </aside>
-      </div>
+      {/* Cinematic Wide GTA VI Marketing Banner */}
+      <AdBanner account={account} variant="wide" slot={0} />
 
-        <InsightsPanel
-          scope={scope}
-          insights={insights}
-          onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+        <BusinessSubNav
+          activeTab={tab}
+          onChangeTab={handleTabChange}
+          counts={{
+            complianceItems: itemsState.items?.length,
+            reviewItems: insights.suggestions?.needingReviewCount,
+            schemes: insights.schemes?.length,
+          }}
         />
+
+      {tab === 'compliance' && (
+        <div className="layout">
+          <div className="main-col">
+            <div className="section-head">
+              <h2 style={{ fontSize: 20 }}>Compliance items</h2>
+              <button className="btn btn-primary" onClick={() => editor.openCreate()}>
+                Add item
+              </button>
+            </div>
+            <ComplianceItemsTable
+              scope={scope}
+              items={itemsState.items}
+              showIssued
+              emptyDescription="Add this client's licenses, registrations, or certificates with their expiry dates to start tracking them."
+              onAdd={() => editor.openCreate()}
+              onEdit={editor.openEdit}
+              onDelete={editor.remove}
+            />
+            <ActivityCard entries={insights.activity} />
+          </div>
+          <aside className="rail">
+            {/* Real GTA VI Box Art / Cover Skyscraper */}
+            <AdBanner account={account} variant="square" slot={1} />
+          </aside>
+        </div>
+      )}
+
+      {tab === 'review' && insights.suggestions && (
+        <>
+          <AreasToReviewView
+            data={insights.suggestions}
+            onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
+
+      {tab === 'schemes' && insights.schemes && (
+        <>
+          <GovtSchemesView
+            matches={insights.schemes}
+            onDiscover={() => scopedApi(scope).discoverSchemes()}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
+
+      {tab === 'sustainability' && insights.sustainability && (
+        <>
+          <SustainabilityView
+            recommendations={insights.sustainability.recommendations}
+            inputs={insights.sustainability.userProvidedContext}
+            onSave={insights.saveSustainability}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
 
       {editor.state && (
         <ComplianceItemModal
@@ -116,6 +170,6 @@ export function ClientDetailPage() {
         />
       )}
       <AskVenture scope={scope} />
-    </div>
+    </div >
   );
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { clientsApi } from '@/api';
 import type { Business } from '@/types';
 import { LoginStatusBadge } from '@/shared/components/StatusBadge';
+import { AdBanner } from '@/shared/components/AdBanner';
 import { AddClientModal } from '../components/AddClientModal';
 
 export function ClientsPage() {
@@ -30,6 +31,9 @@ export function ClientsPage() {
       </div>
 
       {error && <div className="form-error">{error}</div>}
+
+      {/* Cinematic Wide GTA VI Marketing Banner */}
+      <AdBanner variant="wide" slot={0} />
 
       <div className="card">
         {clients === null ? (
@@ -70,6 +74,9 @@ export function ClientsPage() {
           </table>
         )}
       </div>
+
+      {/* Interactive Trailer Teaser */}
+      <AdBanner variant="trailer" />
 
       {showForm && (
         <AddClientModal

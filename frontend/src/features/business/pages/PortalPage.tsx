@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { OWNER_SCOPE, exportCsvUrl } from '@/api';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { OWNER_SCOPE, exportCsvUrl, scopedApi } from '@/api';
 import { AdBanner } from '@/shared/components/AdBanner';
 import { PageError, PageLoading } from '@/shared/components/PageStates';
 import { StatRow } from '@/shared/components/StatRow';
@@ -13,8 +13,11 @@ import { useComplianceItems } from '@/features/compliance/hooks/useComplianceIte
 import { useItemEditor } from '@/features/compliance/hooks/useItemEditor';
 import { ActivityCard } from '@/features/insights/components/ActivityLog';
 import { HealthSummaryCard } from '@/features/insights/components/HealthSummaryCard';
-import { InsightsPanel } from '@/features/insights/components/InsightsPanel';
 import { useBusinessInsights } from '@/features/insights/hooks/useBusinessInsights';
+import { BusinessSubNav, type BusinessTab } from '@/features/insights/components/BusinessSubNav';
+import { GovtSchemesView } from '@/features/insights/components/GovtSchemesView';
+import { SustainabilityView } from '@/features/insights/components/SustainabilityView';
+import { AreasToReviewView } from '@/features/insights/components/AreasToReviewView';
 import { ChangePasswordForm } from '../components/ChangePasswordForm';
 import { useOwnerBusiness } from '../hooks/useOwnerBusiness';
 
@@ -22,6 +25,9 @@ const scope = OWNER_SCOPE;
 
 /** A business owner's dashboard for their own business. */
 export function PortalPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tab = (searchParams.get('tab') as BusinessTab) || 'compliance';
+
   const owner = useOwnerBusiness();
   const itemsState = useComplianceItems(scope);
   const insights = useBusinessInsights(scope);
@@ -49,73 +55,125 @@ export function PortalPage() {
 
   const count = (status: string) => items.filter((i) => i.status === status).length;
 
+  function handleTabChange(nextTab: BusinessTab) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('tab', nextTab);
+      return next;
+    });
+  }
+
   return (
     <div className="container">
       <div className="eyebrow">Your business</div>
       <div className="section-head">
         <h1 style={{ fontSize: 26, marginBottom: 0 }}>{business.businessName}</h1>
       </div>
-      <p className="form-note" style={{ marginBottom: 24 }}>
+      <p className="form-note" style={{ marginBottom: 20 }}>
         {business.registrationId && <span className="num">{business.registrationId}</span>}
         {business.businessType && <span> · {business.businessType}</span>}
         {business.industry && <span> · {business.industry}</span>}
         {business.location && <span> · {business.location}</span>}
       </p>
 
-      <StatRow
-        stats={[
-          { label: 'Total items', value: items.length },
-          { label: 'Active', value: count('active'), tone: 'ok' },
-          { label: 'Expiring soon', value: count('expiring_soon'), tone: 'warn' },
-          { label: 'Expired', value: count('expired'), tone: 'danger' },
-        ]}
+      {/* Cinematic Wide GTA VI Marketing Banner */}
+      <AdBanner account={account} variant="wide" slot={0} />
+
+      <BusinessSubNav
+      activeTab={tab}
+      onChangeTab={handleTabChange}
+      counts={{
+        complianceItems: items.length,
+        reviewItems: insights.suggestions?.needingReviewCount,
+        schemes: insights.schemes?.length,
+      }}
       />
 
-      <div className="layout">
-        <div className="main-col">
-          <div className="section-head">
-            <h2 style={{ fontSize: 20 }}>Compliance</h2>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <ExportCsvButton account={account} href={exportCsvUrl.owner} />
-              <button className="btn btn-primary" onClick={() => editor.openCreate()}>
-                Add compliance item
-              </button>
-            </div>
-          </div>
-          <ComplianceItemsTable
-            scope={scope}
-            items={items}
-            emptyDescription="Add your licenses, registrations, or certificates with their expiry dates to start tracking them."
-            onAdd={() => editor.openCreate()}
-            onEdit={editor.openEdit}
-            onDelete={editor.remove}
+          {tab === 'compliance' && (
+        <>
+          <StatRow
+            stats={[
+              { label: 'Total items', value: items.length },
+              { label: 'Active', value: count('active'), tone: 'ok' },
+              { label: 'Expiring soon', value: count('expiring_soon'), tone: 'warn' },
+              { label: 'Expired', value: count('expired'), tone: 'danger' },
+            ]}
           />
-          <ActivityCard entries={insights.activity} />
-          <AdBanner account={account} slot={2} />
-        </div>
-        <aside className="rail">
-          {health && <HealthSummaryCard title="Compliance Health" health={health} />}
-          <AdBanner account={account} slot={0} />
-          <div className="card card-pad">
-            <div className="section-head">
-              <h2 style={{ fontSize: 16 }}>Account</h2>
-              <button className="btn-ghost btn" onClick={() => setShowPasswordForm((s) => !s)}>
-                {showPasswordForm ? 'Cancel' : 'Change password'}
-              </button>
-            </div>
-            <div style={{ fontSize: 14, color: 'var(--muted)' }}>
-              Contact: {business.contactEmail || '—'} {business.contactPhone ? `· ${business.contactPhone}` : ''}
-            </div>
-            {showPasswordForm && <ChangePasswordForm onDone={() => setShowPasswordForm(false)} />}
-          </div>
-        </aside>
-      </div>
 
-        <InsightsPanel
-          scope={scope}
-          insights={insights}
-          onAddCompliance={(name, category) => editor.openCreate({ name, category })}
-        />
+          <div className="layout">
+            <div className="main-col">
+              <div className="section-head">
+                <h2 style={{ fontSize: 20 }}>Compliance</h2>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <ExportCsvButton account={account} href={exportCsvUrl.owner} />
+                  <button className="btn btn-primary" onClick={() => editor.openCreate()}>
+                    Add compliance item
+                  </button>
+                </div>
+              </div>
+              <ComplianceItemsTable
+                scope={scope}
+                items={items}
+                emptyDescription="Add your licenses, registrations, or certificates with their expiry dates to start tracking them."
+                onAdd={() => editor.openCreate()}
+                onEdit={editor.openEdit}
+                onDelete={editor.remove}
+              />
+              <ActivityCard entries={insights.activity} />
+              {/* GTA VI Trailer Interactive Teaser */}
+              <AdBanner account={account} variant="trailer" />
+            </div>
+            <aside className="rail">
+              {health && <HealthSummaryCard title="Compliance Health" health={health} />}
+              {/* GTA VI Cover Art / Box Art Skyscraper */}
+              <AdBanner account={account} variant="square" slot={1} />
+              <div className="card card-pad">
+                <div className="section-head">
+                  <h2 style={{ fontSize: 16 }}>Account</h2>
+                  <button className="btn-ghost btn" onClick={() => setShowPasswordForm((s) => !s)}>
+                    {showPasswordForm ? 'Cancel' : 'Change password'}
+                  </button>
+                </div>
+                <div style={{ fontSize: 14, color: 'var(--muted)' }}>
+                  Contact: {business.contactEmail || '—'} {business.contactPhone ? `· ${business.contactPhone}` : ''}
+                </div>
+                {showPasswordForm && <ChangePasswordForm onDone={() => setShowPasswordForm(false)} />}
+              </div>
+            </aside>
+          </div>
+        </>
+      )}
+
+      {tab === 'review' && insights.suggestions && (
+        <>
+          <AreasToReviewView
+            data={insights.suggestions}
+            onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
+
+      {tab === 'schemes' && insights.schemes && (
+        <>
+          <GovtSchemesView
+            matches={insights.schemes}
+            onDiscover={() => scopedApi(scope).discoverSchemes()}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
+
+      {tab === 'sustainability' && insights.sustainability && (
+        <>
+          <SustainabilityView
+            recommendations={insights.sustainability.recommendations}
+            inputs={insights.sustainability.userProvidedContext}
+            onSave={insights.saveSustainability}
+          />
+          <AdBanner account={account} variant="trailer" />
+        </>
+      )}
 
       {editor.state && (
         <ComplianceItemModal
@@ -128,6 +186,6 @@ export function PortalPage() {
         />
       )}
       <AskVenture scope={scope} />
-    </div>
+    </div >
   );
 }

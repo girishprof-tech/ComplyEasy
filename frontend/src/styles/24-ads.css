@@ -1,5 +1,6 @@
-/* ---------- demo ad banners (Free plan) ---------- */
+/* ---------- Graphical GTA VI & Free Plan Ad Banners & Pre-Order Modal ---------- */
 
+/* Standard in-feed / sidebar banner */
 .ad-banner {
   --ad-color: var(--brand);
   --ad-tint: var(--brand-tint);
@@ -10,47 +11,121 @@
   margin: 0 0 24px;
   border: 1px solid var(--hairline);
   border-left: 4px solid var(--ad-color);
-  border-radius: 12px;
-  background: linear-gradient(100deg, var(--ad-tint) 0%, var(--surface) 70%);
+  border-radius: 14px;
+  background: linear-gradient(100deg, var(--ad-tint) 0%, var(--surface) 75%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.ad-banner.ad-neon {
+  border-color: rgba(255, 0, 127, 0.25);
+  border-left: 5px solid var(--ad-color);
+  background: linear-gradient(110deg, var(--ad-tint) 0%, rgba(255, 255, 255, 0.95) 60%, var(--ad-tint) 100%);
+  box-shadow: 0 4px 20px rgba(255, 0, 128, 0.08);
+}
+
+.ad-banner.ad-neon:hover {
+  box-shadow: 0 8px 30px rgba(255, 0, 128, 0.16);
+  border-color: var(--ad-color);
 }
 
 .ad-logo {
   flex: none;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
   display: grid;
   place-items: center;
   background: var(--ad-color);
   color: #fff;
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  letter-spacing: -0.02em;
 }
 
-.ad-body { flex: 1; min-width: 0; }
+.ad-neon .ad-logo {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px var(--ad-color);
+  box-shadow: 0 0 14px var(--ad-color);
+}
+
+
+.ad-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
 
 .ad-tag {
   font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 600;
+  color: var(--ad-color);
+  font-weight: 700;
 }
 
-.ad-headline { font-weight: 700; font-size: 15px; color: var(--ink); margin-top: 1px; }
-.ad-copy { font-size: 13px; color: var(--ink-soft); }
+.ad-neon-pill {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ff007f 0%, #00f0ff 100%);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(255, 0, 128, 0.4);
+}
 
-.ad-meta { margin-top: 5px; font-size: 11px; color: var(--muted); }
-.ad-meta a { color: var(--brand); font-weight: 600; text-decoration: none; }
-.ad-meta a:hover { text-decoration: underline; }
+.ad-headline {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  margin-top: 1px;
+}
+
+.ad-copy {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.ad-meta {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.ad-meta a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ad-meta a:hover {
+  text-decoration: underline;
+}
+
 .ad-label {
   display: inline-block;
   padding: 0 5px;
-  margin-right: 3px;
+  margin-right: 4px;
   border: 1px solid var(--muted);
   border-radius: 3px;
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 14px;
@@ -59,17 +134,997 @@
 
 .ad-cta {
   flex: none;
-  padding: 8px 16px;
+  padding: 9px 18px;
   border-radius: 999px;
   background: var(--ad-color);
   color: #fff;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
-  cursor: default;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: all 140ms ease;
+  border: none;
 }
 
-@media (max-width: 560px) {
-  .ad-banner { flex-wrap: wrap; }
-  .ad-cta { display: none; }
+
+.ad-neon .ad-cta {
+  box-shadow: 0 0 14px rgba(255, 0, 128, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
+
+
+.ad-banner:hover .ad-cta {
+  transform: scale(1.04);
+}
+
+
+  /* ==========================================================================
+   TOP STICKY GTA VI TICKER RIBBON
+   ========================================================================== */
+  .gta-ticker-bar {
+    background: linear-gradient(90deg, #10031d 0%, #1a082b 30%, #0d021c 70%, #150624 100%);
+    border-bottom: 2px solid #ff007f;
+    box-shadow: 0 2px 14px rgba(255, 0, 127, 0.25);
+    padding: 7px 16px;
+    color: #fff;
+    font-size: 12.5px;
+    position: relative;
+    z-index: 90;
+  }
+
+
+  .gta-ticker-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .gta-ticker-accent {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: #ff007f;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+  }
+
+  .gta-ticker-text {
+    color: #e5daf3;
+    font-weight: 500;
+  }
+
+  .gta-ticker-btn {
+    background: linear-gradient(90deg, #ff007f 0%, #e100ff 100%);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+    transition: transform 140ms ease;
+  }
+
+  .gta-ticker-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .gta-ticker-trailer {
+    color: #00f0ff;
+    font-weight: 700;
+    font-size: 11.5px;
+    cursor: pointer;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+    transition: color 140ms ease;
+  }
+
+  .gta-ticker-trailer:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .gta-ticker-pro {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .gta-ticker-pro a {
+    color: #00f0ff;
+    text-decoration: none;
+  }
+
+  /* ==========================================================================
+   ACTUAL REALISTIC GTA 6 GRAPHICAL MARKETING BANNERS
+   ========================================================================== */
+
+  /* 1. Cinematic Wide Leaderboard Banner */
+  .gta-banner-wide {
+    position: relative;
+    width: 100%;
+    min-height: 220px;
+    border-radius: 18px;
+    margin: 0 0 24px;
+    background-position: center right;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid #ff007f;
+    box-shadow: 0 8px 32px rgba(255, 0, 128, 0.25), 0 0 20px rgba(0, 240, 255, 0.2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .gta-banner-wide:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 42px rgba(255, 0, 128, 0.35), 0 0 28px rgba(0, 240, 255, 0.3);
+  }
+
+  .gta-wide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 2, 18, 0.96) 0%, rgba(15, 5, 26, 0.88) 45%, rgba(10, 2, 18, 0.4) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 26px 34px;
+    gap: 24px;
+  }
+
+  .gta-wide-content {
+    max-width: 660px;
+    z-index: 2;
+  }
+
+  .gta-header-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .rstar-badge {
+    background: #ffaa00;
+    color: #000;
+    font-weight: 900;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  .gta-esrb-badge {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    font-weight: 800;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  .gta-neon-tagline {
+    color: #00f0ff;
+    font-weight: 800;
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+  }
+
+  .gta-official-logos-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 10px;
+  }
+
+  .gta-official-text-logo {
+    height: 44px;
+    width: auto;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
+  }
+
+  .gta-official-vi-logo {
+    height: 52px;
+    width: auto;
+    filter: drop-shadow(0 0 14px rgba(255, 0, 127, 0.8));
+  }
+
+  .gta-wide-subtitle {
+    font-size: 13.5px;
+    color: #e0d0f5;
+    line-height: 1.45;
+    margin: 0 0 14px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .gta-platforms-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+  }
+
+  .gta-wide-cta-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .gta-preorder-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    background: linear-gradient(90deg, #ff007f 0%, #e100ff 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.6), 0 4px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 160ms ease;
+  }
+
+  .gta-preorder-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 0, 128, 0.85), 0 6px 20px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(90deg, #ff1a8c 0%, #eb26ff 100%);
+  }
+
+  .gta-trailer-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: rgba(0, 240, 255, 0.12);
+    color: #00f0ff;
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 140ms ease;
+  }
+
+  .gta-trailer-btn-secondary:hover {
+    background: rgba(0, 240, 255, 0.25);
+    color: #fff;
+    border-color: #00f0ff;
+  }
+
+  .gta-ad-disclaimer {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gta-ad-disclaimer a {
+    color: #00f0ff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .gta-ad-disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  /* 2. Realistic Square / Sidebar Cover Art Ad */
+  .gta-banner-square {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    border-radius: 18px;
+    margin: 0 0 24px;
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 8px 32px rgba(0, 240, 255, 0.22), 0 0 16px rgba(255, 0, 128, 0.18);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .gta-banner-square:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 240, 255, 0.32), 0 0 24px rgba(255, 0, 128, 0.28);
+  }
+
+  .gta-square-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 2, 18, 0.25) 0%, rgba(10, 2, 18, 0.5) 35%, rgba(10, 2, 18, 0.96) 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+    gap: 10px;
+  }
+
+  .gta-square-logo-area {
+    margin-bottom: 2px;
+  }
+
+  .gta-square-vi-logo {
+    height: 56px;
+    width: auto;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 128, 0.7));
+  }
+
+  .gta-square-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.15;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 15px rgba(0, 240, 255, 0.5);
+  }
+
+  .gta-square-title span {
+    color: #ff007f;
+  }
+
+  .gta-square-desc {
+    font-size: 12px;
+    color: #e2d9f3;
+    line-height: 1.4;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  }
+
+  .gta-bonus-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(255, 0, 128, 0.25);
+    border: 1px solid rgba(255, 0, 128, 0.6);
+    border-radius: 6px;
+    color: #ff80df;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* 3. Interactive Trailer Banner */
+  .gta-banner-trailer {
+    position: relative;
+    width: 100%;
+    min-height: 140px;
+    border-radius: 16px;
+    margin: 0 0 24px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 6px 26px rgba(0, 240, 255, 0.25);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .gta-banner-trailer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 34px rgba(0, 240, 255, 0.4);
+  }
+
+  .gta-trailer-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(8, 2, 16, 0.92) 0%, rgba(12, 3, 24, 0.82) 50%, rgba(8, 2, 16, 0.5) 100%);
+    display: flex;
+    align-items: center;
+    padding: 18px 28px;
+    gap: 20px;
+  }
+
+  .gta-trailer-play-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #ff007f;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 18px rgba(255, 0, 128, 0.8);
+    flex-shrink: 0;
+    transition: transform 180ms ease;
+  }
+
+  .gta-banner-trailer:hover .gta-trailer-play-circle {
+    transform: scale(1.1);
+    background: #00f0ff;
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.9);
+  }
+
+  .gta-trailer-play-icon {
+    color: #fff;
+    font-size: 20px;
+    margin-left: 3px;
+  }
+
+  .gta-trailer-copy {
+    flex: 1;
+  }
+
+  .gta-trailer-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 2px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  }
+
+  .gta-trailer-sub {
+    font-size: 12px;
+    color: #d8cde9;
+    margin: 0;
+  }
+
+  .gta-trailer-action-btn {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #ff007f 0%, #e100ff 100%);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(255, 0, 128, 0.5);
+  }
+
+  /* ==========================================================================
+   ROCKSTAR GAMES PRE-ORDER & MEDIA MODAL
+   ========================================================================== */
+  .gta-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 2, 16, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: gtaFadeIn 200ms ease;
+  }
+
+  @keyframes gtaFadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .gta-modal-container {
+    background: #110521;
+    border: 2px solid #ff007f;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 0, 128, 0.35);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gta-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .gta-modal-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gta-modal-close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 140ms ease;
+  }
+
+  .gta-modal-close-btn:hover {
+    opacity: 1;
+  }
+
+  .gta-modal-hero {
+    background: linear-gradient(180deg, rgba(255, 0, 128, 0.15) 0%, rgba(17, 5, 33, 1) 100%), url('/ads/gta6-official-rooftop.jpg') center / cover no-repeat;
+    padding: 30px 28px 10px;
+    position: relative;
+  }
+
+  .gta-modal-hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .gta-modal-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .gta-modal-logo-text {
+    height: 52px;
+    width: auto;
+  }
+
+  .gta-modal-logo-vi {
+    height: 64px;
+    width: auto;
+    filter: drop-shadow(0 0 16px rgba(255, 0, 128, 0.9));
+  }
+
+  .gta-modal-hero-sub {
+    font-size: 14px;
+    color: #dfd4f0;
+    max-width: 720px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  }
+
+  .gta-modal-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: -1px;
+  }
+
+  .gta-modal-tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 18px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 160ms ease;
+  }
+
+  .gta-modal-tab-btn:hover {
+    color: #fff;
+  }
+
+  .gta-modal-tab-btn.active {
+    color: #00f0ff;
+    border-bottom-color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+  }
+
+  .gta-modal-body {
+    padding: 24px 28px;
+    flex: 1;
+  }
+
+  /* Preorder Grid */
+  .gta-preorder-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 24px;
+  }
+
+  .gta-section-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #a79cb8;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+
+  .gta-edition-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gta-edition-card {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 160ms ease;
+  }
+
+  .gta-edition-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 0, 128, 0.4);
+  }
+
+  .gta-edition-card.selected {
+    background: rgba(255, 0, 128, 0.12);
+    border-color: #ff007f;
+    box-shadow: 0 0 16px rgba(255, 0, 128, 0.25);
+  }
+
+  .gta-edition-thumb {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+  }
+
+  .gta-edition-info {
+    flex: 1;
+  }
+
+  .gta-edition-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .gta-edition-name {
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+  }
+
+  .gta-edition-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #00f0ff;
+    color: #000;
+    text-transform: uppercase;
+  }
+
+  .gta-edition-price {
+    font-size: 16px;
+    font-weight: 900;
+    color: #ff007f;
+    margin: 2px 0 6px;
+  }
+
+  .gta-edition-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 11.5px;
+    color: #c9bede;
+    line-height: 1.4;
+  }
+
+  /* Platform selector */
+  .gta-platform-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .gta-platform-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 140ms ease;
+  }
+
+  .gta-platform-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .gta-platform-btn.active {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: #00f0ff;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  }
+
+  .gta-platform-icon {
+    font-size: 16px;
+  }
+
+  /* Order Summary Box */
+  .gta-order-summary-box {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 18px;
+  }
+
+  .gta-order-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #c5b8d9;
+    margin-bottom: 8px;
+  }
+
+  .gta-order-summary-row strong {
+    color: #fff;
+  }
+
+  .gta-order-summary-row.total {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    margin: 10px 0 14px;
+  }
+
+  .gta-price-highlight {
+    color: #00f0ff;
+    font-size: 20px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+  }
+
+  .gta-order-summary-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 10px 0;
+  }
+
+  .gta-checkout-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg, #ff007f 0%, #e100ff 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+    transition: all 160ms ease;
+  }
+
+  .gta-checkout-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(255, 0, 128, 0.85);
+  }
+
+  .gta-guarantee-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 10px;
+  }
+
+  /* Confirmation Box */
+  .gta-confirmed-box {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .gta-confirmed-icon {
+    font-size: 56px;
+    margin-bottom: 12px;
+  }
+
+  .gta-confirmed-title {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.04em;
+    margin: 0 0 10px;
+    text-shadow: 0 0 20px rgba(255, 0, 128, 0.7);
+  }
+
+  .gta-confirmed-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    background: rgba(0, 240, 255, 0.15);
+    border: 1px solid #00f0ff;
+    border-radius: 30px;
+    color: #00f0ff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .gta-confirmed-sub {
+    font-size: 15px;
+    color: #e5daf3;
+    max-width: 500px;
+    margin: 0 auto 12px;
+  }
+
+  .gta-confirmed-order-id {
+    font-size: 14px;
+    color: #a79cb8;
+    margin-bottom: 12px;
+  }
+
+  .gta-confirmed-order-id span {
+    color: #ffaa00;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .gta-confirmed-note {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Video Frame */
+  .gta-video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.35);
+    margin-bottom: 16px;
+  }
+
+  .gta-video-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .gta-trailer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Gallery */
+  .gta-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .gta-gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    aspect-ratio: 16 / 9;
+  }
+
+  .gta-gallery-item.wide {
+    grid-column: span 2;
+    aspect-ratio: 21 / 9;
+  }
+
+  .gta-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 240ms ease;
+  }
+
+  .gta-gallery-item:hover img {
+    transform: scale(1.04);
+  }
+
+  .gta-gallery-caption {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 100%);
+    padding: 14px 14px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Modal Footer */
+  .gta-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .gta-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gta-footer-legal {
+    max-width: 480px;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 768px) {
+    .gta-preorder-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gta-wide-overlay {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .gta-wide-cta-box {
+      align-items: flex-start;
+    }
+
+    .gta-gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gta-gallery-item.wide {
+      grid-column: span 1;
+    }
+  }

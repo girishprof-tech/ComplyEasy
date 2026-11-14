@@ -88,76 +88,104 @@ export function ClientDetailPage() {
 
       {error && <div className="form-error">{error}</div>}
 
-      {/* Cinematic Wide GTA VI Marketing Banner */}
+      {/* Cinematic Wide GTA VI Billboard Banner */}
       <AdBanner account={account} variant="wide" slot={0} />
 
-        <BusinessSubNav
-          activeTab={tab}
-          onChangeTab={handleTabChange}
-          counts={{
-            complianceItems: itemsState.items?.length,
-            reviewItems: insights.suggestions?.needingReviewCount,
-            schemes: insights.schemes?.length,
-          }}
-        />
+      <BusinessSubNav
+        activeTab={tab}
+        onChangeTab={handleTabChange}
+        counts={{
+          complianceItems: itemsState.items?.length,
+          reviewItems: insights.suggestions?.needingReviewCount,
+          schemes: insights.schemes?.length,
+        }}
+      />
 
-      {tab === 'compliance' && (
-        <div className="layout">
-          <div className="main-col">
-            <div className="section-head">
-              <h2 style={{ fontSize: 20 }}>Compliance items</h2>
-              <button className="btn btn-primary" onClick={() => editor.openCreate()}>
-                Add item
-              </button>
-            </div>
-            <ComplianceItemsTable
-              scope={scope}
-              items={itemsState.items}
-              showIssued
-              emptyDescription="Add this client's licenses, registrations, or certificates with their expiry dates to start tracking them."
-              onAdd={() => editor.openCreate()}
-              onEdit={editor.openEdit}
-              onDelete={editor.remove}
-            />
-            <ActivityCard entries={insights.activity} />
-          </div>
-          <aside className="rail">
-            {/* Real GTA VI Box Art / Cover Skyscraper */}
-            <AdBanner account={account} variant="square" slot={1} />
-          </aside>
+      <div className="layout">
+        <div className="main-col">
+          {tab === 'compliance' && (
+            <>
+              <div className="section-head">
+                <h2 style={{ fontSize: 20 }}>Compliance items</h2>
+                <button className="btn btn-primary" onClick={() => editor.openCreate()}>
+                  Add item
+                </button>
+              </div>
+              <ComplianceItemsTable
+                scope={scope}
+                items={itemsState.items}
+                showIssued
+                emptyDescription="Add this client's licenses, registrations, or certificates with their expiry dates to start tracking them."
+                onAdd={() => editor.openCreate()}
+                onEdit={editor.openEdit}
+                onDelete={editor.remove}
+              />
+              <ActivityCard entries={insights.activity} />
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'review' && (
+            <>
+              {insights.suggestions ? (
+                <AreasToReviewView
+                  data={insights.suggestions}
+                  onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Analyzing license gaps and compliance checklists…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'schemes' && (
+            <>
+              {insights.schemes ? (
+                <GovtSchemesView
+                  matches={insights.schemes}
+                  onDiscover={() => scopedApi(scope).discoverSchemes()}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Matching central and state government schemes…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'sustainability' && (
+            <>
+              {insights.sustainability ? (
+                <SustainabilityView
+                  recommendations={insights.sustainability.recommendations}
+                  inputs={insights.sustainability.userProvidedContext}
+                  onSave={insights.saveSustainability}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Loading sustainability and eco metrics…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
         </div>
-      )}
 
-      {tab === 'review' && insights.suggestions && (
-        <>
-          <AreasToReviewView
-            data={insights.suggestions}
-            onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+        <aside className="rail">
+          {/* Consistent Sidebar GTA VI Cover Art / Box Art Skyscraper across all tabs */}
+          <AdBanner
+            account={account}
+            variant="square"
+            slot={tab === 'compliance' ? 1 : tab === 'review' ? 2 : tab === 'schemes' ? 3 : 0}
           />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
-
-      {tab === 'schemes' && insights.schemes && (
-        <>
-          <GovtSchemesView
-            matches={insights.schemes}
-            onDiscover={() => scopedApi(scope).discoverSchemes()}
-          />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
-
-      {tab === 'sustainability' && insights.sustainability && (
-        <>
-          <SustainabilityView
-            recommendations={insights.sustainability.recommendations}
-            inputs={insights.sustainability.userProvidedContext}
-            onSave={insights.saveSustainability}
-          />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
+          {/* In-universe Vice City sponsored card */}
+          <AdBanner account={account} variant="standard" slot={tab === 'compliance' ? 0 : 2} />
+        </aside>
+      </div>
 
       {editor.state && (
         <ComplianceItemModal
@@ -170,6 +198,6 @@ export function ClientDetailPage() {
         />
       )}
       <AskVenture scope={scope} />
-    </div >
+    </div>
   );
 }

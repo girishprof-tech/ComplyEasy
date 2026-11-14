@@ -7,3 +7,4 @@ export { accountApi } from './account';
 export { aiApi } from './ai';
 export { notificationsApi } from './notifications';
 export { dashboardApi, exportCsvUrl } from './dashboard';
+export { userApi } from './user';

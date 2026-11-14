@@ -3,6 +3,7 @@ import { ActivatePage } from '@/features/auth/pages/ActivatePage';
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/features/auth/pages/RegisterPage';
 import { PlanPage } from '@/features/account/PlanPage';
+import { SettingsPage } from '@/features/settings/SettingsPage';
 import { BusinessSetupPage } from '@/features/business/pages/BusinessSetupPage';
 import { PortalPage } from '@/features/business/pages/PortalPage';
 import { ClientDetailPage } from '@/features/clients/pages/ClientDetailPage';
@@ -51,7 +52,13 @@ export const router = createBrowserRouter([
           { path: '/portal', element: <PortalPage /> },
         ],
       },
-      { element: <RequireAuth />, children: [{ path: '/plan', element: <PlanPage /> }] },
+      {
+        element: <RequireAuth />,
+        children: [
+          { path: '/plan', element: <PlanPage /> },
+          { path: '/settings', element: <SettingsPage /> },
+        ],
+      },
       { path: '*', element: <NotFound /> },
     ],
   },

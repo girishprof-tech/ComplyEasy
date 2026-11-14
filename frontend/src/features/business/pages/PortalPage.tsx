@@ -76,32 +76,32 @@ export function PortalPage() {
         {business.location && <span> · {business.location}</span>}
       </p>
 
-      {/* Cinematic Wide GTA VI Marketing Banner */}
+      {/* Cinematic Wide GTA VI Billboard Banner */}
       <AdBanner account={account} variant="wide" slot={0} />
 
       <BusinessSubNav
-      activeTab={tab}
-      onChangeTab={handleTabChange}
-      counts={{
-        complianceItems: items.length,
-        reviewItems: insights.suggestions?.needingReviewCount,
-        schemes: insights.schemes?.length,
-      }}
+        activeTab={tab}
+        onChangeTab={handleTabChange}
+        counts={{
+          complianceItems: items.length,
+          reviewItems: insights.suggestions?.needingReviewCount,
+          schemes: insights.schemes?.length,
+        }}
       />
 
+      <div className="layout">
+        <div className="main-col">
           {tab === 'compliance' && (
-        <>
-          <StatRow
-            stats={[
-              { label: 'Total items', value: items.length },
-              { label: 'Active', value: count('active'), tone: 'ok' },
-              { label: 'Expiring soon', value: count('expiring_soon'), tone: 'warn' },
-              { label: 'Expired', value: count('expired'), tone: 'danger' },
-            ]}
-          />
+            <>
+              <StatRow
+                stats={[
+                  { label: 'Total items', value: items.length },
+                  { label: 'Active', value: count('active'), tone: 'ok' },
+                  { label: 'Expiring soon', value: count('expiring_soon'), tone: 'warn' },
+                  { label: 'Expired', value: count('expired'), tone: 'danger' },
+                ]}
+              />
 
-          <div className="layout">
-            <div className="main-col">
               <div className="section-head">
                 <h2 style={{ fontSize: 20 }}>Compliance</h2>
                 <div style={{ display: 'flex', gap: 10 }}>
@@ -120,60 +120,82 @@ export function PortalPage() {
                 onDelete={editor.remove}
               />
               <ActivityCard entries={insights.activity} />
-              {/* GTA VI Trailer Interactive Teaser */}
               <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'review' && (
+            <>
+              {insights.suggestions ? (
+                <AreasToReviewView
+                  data={insights.suggestions}
+                  onAddCompliance={(name, category) => editor.openCreate({ name, category })}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Analyzing license gaps and compliance checklists…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'schemes' && (
+            <>
+              {insights.schemes ? (
+                <GovtSchemesView
+                  matches={insights.schemes}
+                  onDiscover={() => scopedApi(scope).discoverSchemes()}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Matching central and state government schemes…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+
+          {tab === 'sustainability' && (
+            <>
+              {insights.sustainability ? (
+                <SustainabilityView
+                  recommendations={insights.sustainability.recommendations}
+                  inputs={insights.sustainability.userProvidedContext}
+                  onSave={insights.saveSustainability}
+                />
+              ) : (
+                <div className="card card-pad" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: 'var(--ink-soft)' }}>Loading sustainability and eco metrics…</p>
+                </div>
+              )}
+              <AdBanner account={account} variant="trailer" />
+            </>
+          )}
+        </div>
+
+        <aside className="rail">
+          {health && <HealthSummaryCard title="Compliance Health" health={health} />}
+          {/* Real GTA 6 Square Box Art / Skyscraper ad in the sidebar rail of EVERY tab! */}
+          <AdBanner
+            account={account}
+            variant="square"
+            slot={tab === 'compliance' ? 1 : tab === 'review' ? 2 : tab === 'schemes' ? 3 : 0}
+          />
+          <div className="card card-pad">
+            <div className="section-head">
+              <h2 style={{ fontSize: 16 }}>Account</h2>
+              <button className="btn-ghost btn" onClick={() => setShowPasswordForm((s) => !s)}>
+                {showPasswordForm ? 'Cancel' : 'Change password'}
+              </button>
             </div>
-            <aside className="rail">
-              {health && <HealthSummaryCard title="Compliance Health" health={health} />}
-              {/* GTA VI Cover Art / Box Art Skyscraper */}
-              <AdBanner account={account} variant="square" slot={1} />
-              <div className="card card-pad">
-                <div className="section-head">
-                  <h2 style={{ fontSize: 16 }}>Account</h2>
-                  <button className="btn-ghost btn" onClick={() => setShowPasswordForm((s) => !s)}>
-                    {showPasswordForm ? 'Cancel' : 'Change password'}
-                  </button>
-                </div>
-                <div style={{ fontSize: 14, color: 'var(--muted)' }}>
-                  Contact: {business.contactEmail || '—'} {business.contactPhone ? `· ${business.contactPhone}` : ''}
-                </div>
-                {showPasswordForm && <ChangePasswordForm onDone={() => setShowPasswordForm(false)} />}
-              </div>
-            </aside>
+            <div style={{ fontSize: 14, color: 'var(--muted)' }}>
+              Contact: {business.contactEmail || '—'} {business.contactPhone ? `· ${business.contactPhone}` : ''}
+            </div>
+            {showPasswordForm && <ChangePasswordForm onDone={() => setShowPasswordForm(false)} />}
           </div>
-        </>
-      )}
-
-      {tab === 'review' && insights.suggestions && (
-        <>
-          <AreasToReviewView
-            data={insights.suggestions}
-            onAddCompliance={(name, category) => editor.openCreate({ name, category })}
-          />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
-
-      {tab === 'schemes' && insights.schemes && (
-        <>
-          <GovtSchemesView
-            matches={insights.schemes}
-            onDiscover={() => scopedApi(scope).discoverSchemes()}
-          />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
-
-      {tab === 'sustainability' && insights.sustainability && (
-        <>
-          <SustainabilityView
-            recommendations={insights.sustainability.recommendations}
-            inputs={insights.sustainability.userProvidedContext}
-            onSave={insights.saveSustainability}
-          />
-          <AdBanner account={account} variant="trailer" />
-        </>
-      )}
+        </aside>
+      </div>
 
       {editor.state && (
         <ComplianceItemModal
@@ -186,6 +208,6 @@ export function PortalPage() {
         />
       )}
       <AskVenture scope={scope} />
-    </div >
+    </div>
   );
 }

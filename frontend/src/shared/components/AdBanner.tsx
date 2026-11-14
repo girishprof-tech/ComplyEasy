@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { AccountSummary } from '@/types';
 import { useAccount } from '@/features/account/hooks/useAccount';
+import { useDemoAds } from '@/shared/hooks/useDemoAds';
 import { GtaPreorderModal } from './GtaPreorderModal';
 
 interface Ad {

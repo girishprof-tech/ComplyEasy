@@ -7,3 +7,4 @@ export * from './compliance';
 export * from './dashboard';
 export * from './insights';
 export * from './notifications';
+export * from './user';

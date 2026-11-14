@@ -18,6 +18,13 @@ public class AccountantProfileRepository {
         jdbc.update("INSERT INTO accountant_profiles (user_id, firm_name) VALUES (?, ?)", userId, firmName);
     }
 
+    public void updateFirmName(long userId, String firmName) {
+        int rows = jdbc.update("UPDATE accountant_profiles SET firm_name = ? WHERE user_id = ?", firmName, userId);
+        if (rows == 0) {
+            insert(userId, firmName);
+        }
+    }
+
     public Optional<String> findFirmName(long userId) {
         List<String> rows =
                 jdbc.queryForList("SELECT firm_name FROM accountant_profiles WHERE user_id = ?", String.class, userId);

@@ -3,8 +3,13 @@ echo Starting ComplyEasy (Venture)...
 
 cd /d "%~dp0"
 
+set "JAVA_EXE=java"
+if exist "C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot\bin\java.exe" (
+    set "JAVA_EXE=C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot\bin\java.exe"
+)
+
 echo [1/2] Starting Spring Boot Backend on http://localhost:8787 ...
-start "ComplyEasy Backend" cmd /k "cd /d "%~dp0backend" && java -jar target\venture-backend-1.0.0.jar"
+start "ComplyEasy Backend" cmd /k "cd /d "%~dp0backend" && "%JAVA_EXE%" -jar target\venture-backend-1.0.0.jar"
 
 timeout /t 3 /nobreak >nul
 

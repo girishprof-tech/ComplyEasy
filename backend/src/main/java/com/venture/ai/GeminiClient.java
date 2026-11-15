@@ -201,6 +201,7 @@ public class GeminiClient {
 
         boolean triedDiscovery = false;
         boolean retriedServerError = false;
+        boolean retriedRateLimit = false;
         HttpResponse<String> res;
         String model;
         while (true) {
@@ -219,6 +220,10 @@ public class GeminiClient {
             } else if ((status == 500 || status == 503) && !retriedServerError) {
                 retriedServerError = true;
                 sleep(1500);
+                continue;
+            } else if (status == 429 && !retriedRateLimit) {
+                retriedRateLimit = true;
+                sleep(2000);
                 continue;
             }
             break;

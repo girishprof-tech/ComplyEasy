@@ -19,7 +19,7 @@
       },
       {
         "name": "discover_current_schemes",
-        "description": "Search the live web for current government schemes/subsidies beyond Venture's verified records. Use this when the user asks about \"other\", \"additional\", \"latest\", or \"any other\" schemes not already covered by get_scheme_matches. Results are unverified and must be presented as discovered via search, not as confirmed Venture records."
+        "description": "Search the live web for current government schemes/subsidies beyond Venture's verified records. Only call this when the user explicitly asks to search the web, search Google, or find live unverified news on the internet."
       },
       {
         "name": "get_sustainability_profile",

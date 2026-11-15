@@ -56,6 +56,14 @@ public class AssistantTools {
         return items.listByClientInCreationOrder(business.id()).stream().map(ComplianceItemDto::from).toList();
     }
 
+    public List<com.venture.schemes.SchemeMatchDto> schemeMatches(Business business) {
+        return schemes.match(business);
+    }
+
+    public com.venture.sustainability.SustainabilityModels.Response sustainabilityOverview(Business business) {
+        return sustainability.overview(business);
+    }
+
     /** Runs one tool and returns something JSON-serialisable. */
     public Object run(String name, Business business) {
         if (business == null) return NO_BUSINESS;

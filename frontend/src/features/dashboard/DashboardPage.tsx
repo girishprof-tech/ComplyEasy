@@ -69,7 +69,7 @@ export function DashboardPage() {
         ]}
       />
 
-      {/* Cinematic Wide GTA VI Billboard Banner */}
+      {/* Wide Ad Slot */}
       <AdBanner account={account} variant="wide" slot={0} />
 
       <div className="layout">
@@ -127,13 +127,13 @@ export function DashboardPage() {
             )}
           </div>
 
-          {/* Interactive GTA VI 4K Trailer Teaser */}
+          {/* Standard Ad Slot */}
           <AdBanner account={account} variant="trailer" />
         </div>
 
         <aside className="rail">
           <HealthSummaryCard title="Portfolio Health" health={summary.portfolioHealth} />
-          {/* Realistic GTA VI Box Art / Cover Skyscraper */}
+          {/* Sidebar Box Ad */}
           <AdBanner account={account} variant="square" slot={1} />
         </aside>
       </div>

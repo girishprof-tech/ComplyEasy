@@ -29,7 +29,14 @@ public class DatabaseConfig {
         cfg.setMaximumPoolSize(1);
         cfg.setConnectionInitSql("PRAGMA foreign_keys = ON");
         cfg.setPoolName("venture-sqlite");
-        return new HikariDataSource(cfg);
+
+        HikariDataSource ds = new HikariDataSource(cfg);
+        try (var conn = ds.getConnection(); var stmt = conn.createStatement()) {
+            stmt.execute("ALTER TABLE clients ADD COLUMN logo_data TEXT");
+        } catch (Exception ignored) {
+            // Column already present
+        }
+        return ds;
     }
 
     /** Folder for uploaded certificate files. */

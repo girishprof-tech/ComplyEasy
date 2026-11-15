@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { myBusinessApi } from '@/api';
 import { Field } from '@/shared/components/Field';
+import { BusinessLogo } from '@/shared/components/BusinessLogo';
 import { errorMessage } from '@/shared/lib/errors';
 import { useAuth } from '@/features/auth/state/AuthProvider';
 
@@ -9,6 +10,7 @@ import { useAuth } from '@/features/auth/state/AuthProvider';
 export function BusinessSetupPage() {
   const navigate = useNavigate();
   const { setMe, me } = useAuth();
+  const [logoData, setLogoData] = useState<string | null>(null);
   const [values, setValues] = useState({
     businessName: '',
     businessType: '',
@@ -31,7 +33,7 @@ export function BusinessSetupPage() {
     setError(null);
     setBusy(true);
     try {
-      const business = await myBusinessApi.create(values);
+      const business = await myBusinessApi.create({ ...values, logoData });
       if (me) setMe({ ...me, businessId: business.id, businessName: business.businessName });
       navigate('/portal');
     } catch (err) {
@@ -51,6 +53,34 @@ export function BusinessSetupPage() {
         </p>
         {error && <div className="form-error">{error}</div>}
         <form onSubmit={handleSubmit}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+              marginBottom: 20,
+              padding: 14,
+              background: 'var(--surface-tint)',
+              borderRadius: 12,
+              border: '1px solid var(--hairline)',
+            }}
+          >
+            <BusinessLogo
+              name={values.businessName || 'Business'}
+              logoData={logoData}
+              size={56}
+              editable
+              onUpload={(data) => setLogoData(data)}
+              onRemove={() => setLogoData(null)}
+            />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 13.5 }}>Business Logo (Optional)</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-soft)', marginTop: 2 }}>
+                Click to upload your company emblem. You can also upload this later.
+              </div>
+            </div>
+          </div>
+
           <Field id="businessName" label="Business name" required {...bind('businessName')} />
           <Field
             id="businessType"

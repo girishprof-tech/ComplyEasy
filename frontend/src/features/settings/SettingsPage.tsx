@@ -1,11 +1,12 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { userApi, authApi, accountApi } from '@/api';
+import { userApi, authApi, accountApi, myBusinessApi } from '@/api';
 import type { UserProfileDetail, AccountSummary } from '@/types';
 import { useAuth } from '@/features/auth/state/AuthProvider';
 import { PageError, PageLoading } from '@/shared/components/PageStates';
 import { Field } from '@/shared/components/Field';
 import { AdBanner } from '@/shared/components/AdBanner';
+import { BusinessLogo } from '@/shared/components/BusinessLogo';
 import { useDemoAds } from '@/shared/hooks/useDemoAds';
 import { errorMessage } from '@/shared/lib/errors';
 
@@ -44,6 +45,13 @@ export function SettingsPage() {
   // Plan state
   const [planBusy, setPlanBusy] = useState(false);
   const [planSuccess, setPlanSuccess] = useState<string | null>(null);
+
+  const reloadProfile = () => {
+    userApi.getProfile().then((p) => {
+      setProfile(p);
+      if (p.firmName) setFirmName(p.firmName);
+    });
+  };
 
   useEffect(() => {
     Promise.all([userApi.getProfile(), accountApi.get()])
@@ -146,22 +154,11 @@ export function SettingsPage() {
       <div className="card card-pad" style={{ marginBottom: 24, background: 'linear-gradient(135deg, var(--surface) 0%, rgba(31, 111, 92, 0.05) 100%)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 20,
-                background: 'linear-gradient(135deg, var(--brand) 0%, #0e4c3e 100%)',
-                color: '#fff',
-                fontSize: 26,
-                fontWeight: 900,
-                display: 'grid',
-                placeItems: 'center',
-                boxShadow: '0 8px 24px rgba(31, 111, 92, 0.25)',
-              }}
-            >
-              {displayName.charAt(0).toUpperCase()}
-            </div>
+            <BusinessLogo
+              name={displayName}
+              logoData={profile.business?.logoData}
+              size={64}
+            />
             <div>
               <h1 style={{ fontSize: 24, margin: '0 0 4px', fontWeight: 800 }}>{displayName}</h1>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
@@ -204,7 +201,7 @@ export function SettingsPage() {
         </div>
       </div>
 
-      {/* Cinematic GTA VI Banner for Free Plan */}
+      {/* Wide Ad Slot */}
       <AdBanner account={account} variant="wide" slot={0} />
 
       {/* Settings Navigation Tabs */}
@@ -301,6 +298,42 @@ export function SettingsPage() {
               {profileError && <div className="form-error">{profileError}</div>}
 
               <form onSubmit={handleUpdateProfile}>
+                {profile.role === 'owner' && profile.business && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 16,
+                      marginBottom: 20,
+                      padding: 16,
+                      background: 'var(--surface-tint)',
+                      borderRadius: 12,
+                      border: '1px solid var(--hairline)',
+                    }}
+                  >
+                    <BusinessLogo
+                      name={profile.business.businessName}
+                      logoData={profile.business.logoData}
+                      size={60}
+                      editable
+                      onUpload={async (logoData) => {
+                        await myBusinessApi.uploadLogo(logoData);
+                        reloadProfile();
+                      }}
+                      onRemove={async () => {
+                        await myBusinessApi.removeLogo();
+                        reloadProfile();
+                      }}
+                    />
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 14 }}>Business Logo</div>
+                      <div style={{ fontSize: 12, color: 'var(--ink-soft)', marginTop: 2 }}>
+                        Click the logo avatar above to upload or update your official company logo (PNG, JPG, SVG, WebP up to 2MB).
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <Field id="userEmail" label="Registered email address" type="email" value={profile.email} disabled />
 
                 {profile.role === 'accountant' ? (
@@ -530,7 +563,7 @@ export function SettingsPage() {
                   </div>
                   <div style={{ fontSize: 24, fontWeight: 900, margin: '8px 0', color: 'var(--ink)' }}>₹0 / mo</div>
                   <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.4 }}>
-                    Ideal for individual business testing. Includes GTA VI and partner marketing banners.
+                    Ideal for individual business testing. Includes partner sponsor ad spaces.
                   </p>
                   <ul style={{ paddingLeft: 18, fontSize: 12.5, color: 'var(--ink-soft)', margin: '12px 0 20px', lineHeight: 1.6 }}>
                     <li>Up to 3 managed clients</li>
@@ -642,7 +675,7 @@ export function SettingsPage() {
         </div>
 
         <aside className="rail">
-          {/* Square GTA 6 Box Art / Cover Skyscraper */}
+          {/* Sidebar Box Ad */}
           <AdBanner account={account} variant="square" slot={1} />
           <div className="card card-pad">
             <h3 style={{ fontSize: 15, margin: '0 0 8px' }}>Security &amp; Encryption</h3>

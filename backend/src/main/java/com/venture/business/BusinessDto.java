@@ -13,7 +13,37 @@ public record BusinessDto(
         String contactPhone,
         boolean hasAccountant,
         String loginStatus,
-        String createdAt) {
+        String createdAt,
+        String logoData) {
+
+    public BusinessDto(
+            long id,
+            String businessName,
+            String businessType,
+            String industry,
+            String location,
+            String registrationId,
+            String contactPerson,
+            String contactEmail,
+            String contactPhone,
+            boolean hasAccountant,
+            String loginStatus,
+            String createdAt) {
+        this(
+                id,
+                businessName,
+                businessType,
+                industry,
+                location,
+                registrationId,
+                contactPerson,
+                contactEmail,
+                contactPhone,
+                hasAccountant,
+                loginStatus,
+                createdAt,
+                null);
+    }
 
     public static BusinessDto from(Business b) {
         return new BusinessDto(
@@ -28,7 +58,8 @@ public record BusinessDto(
                 b.contactPhone(),
                 b.accountantId() != null,
                 loginStatus(b),
-                b.createdAt());
+                b.createdAt(),
+                b.logoData());
     }
 
     /** active = the owner has a login; invited = an invite is outstanding; otherwise not_invited. */

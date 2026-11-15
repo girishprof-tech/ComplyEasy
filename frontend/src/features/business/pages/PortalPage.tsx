@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { OWNER_SCOPE, exportCsvUrl, scopedApi } from '@/api';
+import { OWNER_SCOPE, exportCsvUrl, scopedApi, myBusinessApi } from '@/api';
 import { AdBanner } from '@/shared/components/AdBanner';
+import { BusinessLogo } from '@/shared/components/BusinessLogo';
 import { PageError, PageLoading } from '@/shared/components/PageStates';
 import { StatRow } from '@/shared/components/StatRow';
 import { ExportCsvButton } from '@/features/account/components/ExportCsvButton';
@@ -66,17 +67,35 @@ export function PortalPage() {
   return (
     <div className="container">
       <div className="eyebrow">Your business</div>
-      <div className="section-head">
-        <h1 style={{ fontSize: 26, marginBottom: 0 }}>{business.businessName}</h1>
+      <div className="section-head" style={{ alignItems: 'center', marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <BusinessLogo
+            name={business.businessName}
+            logoData={business.logoData}
+            size={56}
+            editable
+            onUpload={async (logoData) => {
+              await myBusinessApi.uploadLogo(logoData);
+              reloadOwner();
+            }}
+            onRemove={async () => {
+              await myBusinessApi.removeLogo();
+              reloadOwner();
+            }}
+          />
+          <div>
+            <h1 style={{ fontSize: 26, margin: 0 }}>{business.businessName}</h1>
+            <p className="form-note" style={{ margin: '4px 0 0' }}>
+              {business.registrationId && <span className="num">{business.registrationId}</span>}
+              {business.businessType && <span> · {business.businessType}</span>}
+              {business.industry && <span> · {business.industry}</span>}
+              {business.location && <span> · {business.location}</span>}
+            </p>
+          </div>
+        </div>
       </div>
-      <p className="form-note" style={{ marginBottom: 20 }}>
-        {business.registrationId && <span className="num">{business.registrationId}</span>}
-        {business.businessType && <span> · {business.businessType}</span>}
-        {business.industry && <span> · {business.industry}</span>}
-        {business.location && <span> · {business.location}</span>}
-      </p>
 
-      {/* Cinematic Wide GTA VI Billboard Banner */}
+      {/* Wide Ad Slot */}
       <AdBanner account={account} variant="wide" slot={0} />
 
       <BusinessSubNav
@@ -176,7 +195,7 @@ export function PortalPage() {
 
         <aside className="rail">
           {health && <HealthSummaryCard title="Compliance Health" health={health} />}
-          {/* Real GTA 6 Square Box Art / Skyscraper ad in the sidebar rail of EVERY tab! */}
+          {/* Sidebar Box Ad */}
           <AdBanner
             account={account}
             variant="square"

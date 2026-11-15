@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/clients")
 public class ClientController {
 
+    public record LogoRequest(String logoData) {}
+
     private final BusinessService service;
     private final InviteService invites;
 
@@ -46,6 +48,16 @@ public class ClientController {
     @PutMapping("/{clientId}")
     public BusinessDto update(SessionUser user, @PathVariable long clientId, @RequestBody BusinessRequest request) {
         return service.updateClient(user.userId(), clientId, request);
+    }
+
+    @PostMapping("/{clientId}/logo")
+    public BusinessDto updateLogo(SessionUser user, @PathVariable long clientId, @RequestBody LogoRequest request) {
+        return service.updateClientLogo(user.userId(), clientId, request.logoData());
+    }
+
+    @DeleteMapping("/{clientId}/logo")
+    public BusinessDto removeLogo(SessionUser user, @PathVariable long clientId) {
+        return service.updateClientLogo(user.userId(), clientId, null);
     }
 
     @DeleteMapping("/{clientId}")

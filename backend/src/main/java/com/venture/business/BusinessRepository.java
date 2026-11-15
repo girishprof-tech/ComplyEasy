@@ -1,6 +1,8 @@
 package com.venture.business;
 
 import com.venture.db.SqlSupport;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +26,8 @@ public class BusinessRepository {
             SqlSupport.nullableLong(rs, "linked_user_id"),
             rs.getString("invite_token_hash"),
             rs.getString("invite_expires_at"),
-            rs.getString("created_at"));
+            rs.getString("created_at"),
+            hasColumn(rs, "logo_data") ? rs.getString("logo_data") : null);
 
     private final JdbcTemplate jdbc;
 
@@ -65,8 +68,8 @@ public class BusinessRepository {
                 jdbc,
                 """
                 INSERT INTO clients (accountant_id, business_name, business_type, industry, location,
-                                     registration_id, contact_person, contact_email, contact_phone)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                     registration_id, contact_person, contact_email, contact_phone, logo_data)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 accountantId,
                 d.businessName(),
                 d.businessType(),
@@ -75,7 +78,8 @@ public class BusinessRepository {
                 d.registrationId(),
                 d.contactPerson(),
                 d.contactEmail(),
-                d.contactPhone());
+                d.contactPhone(),
+                d.logoData());
     }
 
     /** A self-managed business: no accountant, linked to the owner's login from the start. */
@@ -84,8 +88,8 @@ public class BusinessRepository {
                 jdbc,
                 """
                 INSERT INTO clients (accountant_id, business_name, business_type, industry, location,
-                                     registration_id, contact_person, contact_email, contact_phone, linked_user_id)
-                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                     registration_id, contact_person, contact_email, contact_phone, linked_user_id, logo_data)
+                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 d.businessName(),
                 d.businessType(),
                 d.industry(),
@@ -94,14 +98,16 @@ public class BusinessRepository {
                 d.contactPerson(),
                 d.contactEmail(),
                 d.contactPhone(),
-                ownerUserId);
+                ownerUserId,
+                d.logoData());
     }
 
     public void updateDetails(long id, BusinessDetails d) {
         jdbc.update(
                 """
                 UPDATE clients SET business_name = ?, business_type = ?, industry = ?, location = ?,
-                       registration_id = ?, contact_person = ?, contact_email = ?, contact_phone = ?
+                       registration_id = ?, contact_person = ?, contact_email = ?, contact_phone = ?,
+                       logo_data = coalesce(?, logo_data)
                 WHERE id = ?""",
                 d.businessName(),
                 d.businessType(),
@@ -111,7 +117,12 @@ public class BusinessRepository {
                 d.contactPerson(),
                 d.contactEmail(),
                 d.contactPhone(),
+                d.logoData(),
                 id);
+    }
+
+    public void updateLogo(long id, String logoData) {
+        jdbc.update("UPDATE clients SET logo_data = ? WHERE id = ?", logoData, id);
     }
 
     public void setInvite(long id, String tokenHash, String expiresAt) {
@@ -133,6 +144,15 @@ public class BusinessRepository {
         jdbc.update("DELETE FROM compliance_items WHERE client_id = ?", id);
         jdbc.update("DELETE FROM sustainability_inputs WHERE client_id = ?", id);
         jdbc.update("DELETE FROM clients WHERE id = ?", id);
+    }
+
+    private static boolean hasColumn(ResultSet rs, String columnName) {
+        try {
+            rs.findColumn(columnName);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     private static <T> Optional<T> first(List<T> rows) {

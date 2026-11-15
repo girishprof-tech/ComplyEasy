@@ -18,4 +18,39 @@ public record Business(
         Long linkedUserId,
         String inviteTokenHash,
         String inviteExpiresAt,
-        String createdAt) {}
+        String createdAt,
+        String logoData) {
+
+    public Business(
+            long id,
+            Long accountantId,
+            String businessName,
+            String businessType,
+            String industry,
+            String location,
+            String registrationId,
+            String contactPerson,
+            String contactEmail,
+            String contactPhone,
+            Long linkedUserId,
+            String inviteTokenHash,
+            String inviteExpiresAt,
+            String createdAt) {
+        this(
+                id,
+                accountantId,
+                businessName,
+                businessType,
+                industry,
+                location,
+                registrationId,
+                contactPerson,
+                contactEmail,
+                contactPhone,
+                linkedUserId,
+                inviteTokenHash,
+                inviteExpiresAt,
+                createdAt,
+                null);
+    }
+}

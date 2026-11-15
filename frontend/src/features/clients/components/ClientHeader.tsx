@@ -1,28 +1,43 @@
 import type { Business } from '@/types';
 import { LoginStatusBadge } from '@/shared/components/StatusBadge';
+import { BusinessLogo } from '@/shared/components/BusinessLogo';
 
-/** Client summary card with the invite / resend-invite action. */
+/** Client summary card with logo and the invite / resend-invite action. */
 export function ClientHeader({
   client,
   inviteUrl,
   onInvite,
+  onUploadLogo,
+  onRemoveLogo,
 }: {
   client: Business;
   inviteUrl: string | null;
   onInvite: () => void;
+  onUploadLogo?: (logoData: string) => Promise<void> | void;
+  onRemoveLogo?: () => Promise<void> | void;
 }) {
   return (
     <div className="card card-pad" style={{ marginBottom: 24 }}>
-      <div className="section-head">
-        <div>
-          <h2 style={{ fontSize: 22, marginBottom: 4 }}>{client.businessName}</h2>
-          <div style={{ fontSize: 13.5, color: 'var(--muted)' }}>
-            {client.registrationId && <span className="num">{client.registrationId}</span>}
-            {client.businessType && <span> · {client.businessType}</span>}
-            {client.industry && <span> · {client.industry}</span>}
-            {client.location && <span> · {client.location}</span>}
-            {client.contactPerson && <span> · {client.contactPerson}</span>}
-            {client.contactEmail && <span> · {client.contactEmail}</span>}
+      <div className="section-head" style={{ alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <BusinessLogo
+            name={client.businessName}
+            logoData={client.logoData}
+            size={56}
+            editable={Boolean(onUploadLogo)}
+            onUpload={onUploadLogo}
+            onRemove={onRemoveLogo}
+          />
+          <div>
+            <h2 style={{ fontSize: 22, marginBottom: 4 }}>{client.businessName}</h2>
+            <div style={{ fontSize: 13.5, color: 'var(--muted)' }}>
+              {client.registrationId && <span className="num">{client.registrationId}</span>}
+              {client.businessType && <span> · {client.businessType}</span>}
+              {client.industry && <span> · {client.industry}</span>}
+              {client.location && <span> · {client.location}</span>}
+              {client.contactPerson && <span> · {client.contactPerson}</span>}
+              {client.contactEmail && <span> · {client.contactEmail}</span>}
+            </div>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

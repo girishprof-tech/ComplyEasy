@@ -66,6 +66,26 @@ export function ClientDetailPage() {
     }
   }
 
+  async function handleUploadLogo(logoData: string) {
+    setActionError(null);
+    try {
+      await clientsApi.uploadLogo(clientId, logoData);
+      loadClient();
+    } catch (err) {
+      setActionError(errorMessage(err, 'Could not upload client logo.'));
+    }
+  }
+
+  async function handleRemoveLogo() {
+    setActionError(null);
+    try {
+      await clientsApi.removeLogo(clientId);
+      loadClient();
+    } catch (err) {
+      setActionError(errorMessage(err, 'Could not remove client logo.'));
+    }
+  }
+
   function handleTabChange(nextTab: BusinessTab) {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
@@ -84,11 +104,17 @@ export function ClientDetailPage() {
         <Link to="/clients">Clients</Link> / {client.businessName}
       </div>
 
-      <ClientHeader client={client} inviteUrl={inviteUrl} onInvite={handleInvite} />
+      <ClientHeader
+        client={client}
+        inviteUrl={inviteUrl}
+        onInvite={handleInvite}
+        onUploadLogo={handleUploadLogo}
+        onRemoveLogo={handleRemoveLogo}
+      />
 
       {error && <div className="form-error">{error}</div>}
 
-      {/* Cinematic Wide GTA VI Billboard Banner */}
+      {/* Wide Ad Slot */}
       <AdBanner account={account} variant="wide" slot={0} />
 
       <BusinessSubNav
@@ -176,13 +202,13 @@ export function ClientDetailPage() {
         </div>
 
         <aside className="rail">
-          {/* Consistent Sidebar GTA VI Cover Art / Box Art Skyscraper across all tabs */}
+          {/* Sidebar Box Ad */}
           <AdBanner
             account={account}
             variant="square"
             slot={tab === 'compliance' ? 1 : tab === 'review' ? 2 : tab === 'schemes' ? 3 : 0}
           />
-          {/* In-universe Vice City sponsored card */}
+          {/* Sidebar Standard Ad */}
           <AdBanner account={account} variant="standard" slot={tab === 'compliance' ? 0 : 2} />
         </aside>
       </div>

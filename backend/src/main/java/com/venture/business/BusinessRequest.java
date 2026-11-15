@@ -9,4 +9,27 @@ public record BusinessRequest(
         String registrationId,
         String contactPerson,
         String contactEmail,
-        String contactPhone) {}
+        String contactPhone,
+        String logoData) {
+
+    public BusinessRequest(
+            String businessName,
+            String businessType,
+            String industry,
+            String location,
+            String registrationId,
+            String contactPerson,
+            String contactEmail,
+            String contactPhone) {
+        this(
+                businessName,
+                businessType,
+                industry,
+                location,
+                registrationId,
+                contactPerson,
+                contactEmail,
+                contactPhone,
+                null);
+    }
+}

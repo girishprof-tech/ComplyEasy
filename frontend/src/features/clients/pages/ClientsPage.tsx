@@ -4,6 +4,7 @@ import { clientsApi } from '@/api';
 import type { Business } from '@/types';
 import { LoginStatusBadge } from '@/shared/components/StatusBadge';
 import { AdBanner } from '@/shared/components/AdBanner';
+import { BusinessLogo } from '@/shared/components/BusinessLogo';
 import { AddClientModal } from '../components/AddClientModal';
 
 export function ClientsPage() {
@@ -32,7 +33,7 @@ export function ClientsPage() {
 
       {error && <div className="form-error">{error}</div>}
 
-      {/* Cinematic Wide GTA VI Marketing Banner */}
+      {/* Wide Ad Slot */}
       <AdBanner variant="wide" slot={0} />
 
       <div className="card">
@@ -62,7 +63,12 @@ export function ClientsPage() {
             <tbody>
               {clients.map((c) => (
                 <tr key={c.id} className="clickable" onClick={() => navigate(`/clients/${c.id}`)}>
-                  <td style={{ paddingLeft: 20, fontWeight: 600 }}>{c.businessName}</td>
+                  <td style={{ paddingLeft: 20, fontWeight: 600 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <BusinessLogo name={c.businessName} logoData={c.logoData} size={32} />
+                      <span>{c.businessName}</span>
+                    </div>
+                  </td>
                   <td className="num">{c.registrationId || '—'}</td>
                   <td>{c.contactPerson || c.contactEmail || '—'}</td>
                   <td style={{ paddingRight: 20 }}>
@@ -75,7 +81,7 @@ export function ClientsPage() {
         )}
       </div>
 
-      {/* Interactive Trailer Teaser */}
+      {/* Standard Ad Slot */}
       <AdBanner variant="trailer" />
 
       {showForm && (

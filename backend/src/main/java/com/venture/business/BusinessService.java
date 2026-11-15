@@ -70,6 +70,14 @@ public class BusinessService {
     }
 
     @Transactional
+    public BusinessDto updateClientLogo(long accountantId, long clientId, String logoData) {
+        Business existing = requireClient(accountantId, clientId);
+        businesses.updateLogo(existing.id(), emptyToNull(logoData));
+        activity.log(existing.id(), accountantId, "logo_updated", "Business logo updated");
+        return BusinessDto.from(businesses.findById(clientId).orElseThrow());
+    }
+
+    @Transactional
     public void removeClient(long accountantId, long clientId) {
         Business existing = requireClient(accountantId, clientId);
         // Also drop the stored certificate files so nothing is orphaned on disk.
@@ -103,6 +111,14 @@ public class BusinessService {
         return BusinessDto.from(businesses.findById(existing.id()).orElseThrow());
     }
 
+    @Transactional
+    public BusinessDto updateMyLogo(long ownerUserId, String logoData) {
+        Business existing = requireMine(ownerUserId);
+        businesses.updateLogo(existing.id(), emptyToNull(logoData));
+        activity.log(existing.id(), ownerUserId, "logo_updated", "Business logo updated");
+        return BusinessDto.from(businesses.findById(existing.id()).orElseThrow());
+    }
+
     // ---- helpers -----------------------------------------------------------------
 
     private Business requireClient(long accountantId, long clientId) {
@@ -131,7 +147,8 @@ public class BusinessService {
                 emptyToNull(r.registrationId()),
                 emptyToNull(r.contactPerson()),
                 emptyToNull(r.contactEmail()),
-                emptyToNull(r.contactPhone()));
+                emptyToNull(r.contactPhone()),
+                emptyToNull(r.logoData()));
     }
 
     /** Update: a field that is absent (or null) keeps its current value. */
@@ -144,6 +161,7 @@ public class BusinessService {
                 coalesce(r.registrationId(), e.registrationId()),
                 coalesce(r.contactPerson(), e.contactPerson()),
                 coalesce(r.contactEmail(), e.contactEmail()),
-                coalesce(r.contactPhone(), e.contactPhone()));
+                coalesce(r.contactPhone(), e.contactPhone()),
+                r.logoData() != null ? r.logoData() : e.logoData());
     }
 }

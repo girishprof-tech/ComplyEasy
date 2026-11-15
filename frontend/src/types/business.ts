@@ -18,6 +18,7 @@ export interface Business {
   hasAccountant: boolean;
   loginStatus: LoginStatus;
   createdAt: string;
+  logoData?: string | null;
 }
 
 export type BusinessInput = Partial<Omit<Business, 'id' | 'hasAccountant' | 'loginStatus' | 'createdAt'>>;

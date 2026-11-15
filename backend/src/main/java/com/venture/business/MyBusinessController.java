@@ -2,6 +2,7 @@ package com.venture.business;
 
 import com.venture.security.SessionUser;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/business")
 public class MyBusinessController {
+
+    public record LogoRequest(String logoData) {}
 
     private final BusinessService service;
 
@@ -35,5 +38,15 @@ public class MyBusinessController {
     @PutMapping
     public BusinessDto update(SessionUser user, @RequestBody BusinessRequest request) {
         return service.updateMine(user.userId(), request);
+    }
+
+    @PostMapping("/logo")
+    public BusinessDto updateLogo(SessionUser user, @RequestBody LogoRequest request) {
+        return service.updateMyLogo(user.userId(), request.logoData());
+    }
+
+    @DeleteMapping("/logo")
+    public BusinessDto removeLogo(SessionUser user) {
+        return service.updateMyLogo(user.userId(), null);
     }
 }

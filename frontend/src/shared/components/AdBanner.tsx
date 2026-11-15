@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import type { AccountSummary } from '@/types';
 import { useAccount } from '@/features/account/hooks/useAccount';
-import { useDemoAds } from '@/shared/hooks/useDemoAds';
 
 interface Props {
   account?: AccountSummary | null;
@@ -18,7 +17,6 @@ export function AdBanner({
   const location = useLocation();
   const internalAccount = useAccount();
   const account = propAccount !== undefined ? propAccount : internalAccount;
-  const { adsVisible } = useDemoAds();
 
   // 1. Strictly do NOT show any ads on the landing page, login, or register pages
   if (
@@ -35,8 +33,8 @@ export function AdBanner({
     return null;
   }
 
-  // 3. If user disabled demo ads OR upgraded to Pro, hide ads completely
-  if (!adsVisible || (account && account.tier === 'pro')) {
+  // 3. If user upgraded to Pro, hide ads completely
+  if (account && account.tier === 'pro') {
     return null;
   }
 

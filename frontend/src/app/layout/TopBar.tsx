@@ -190,37 +190,6 @@ export function TopBar() {
 
                     <div style={{ height: 1, background: 'var(--hairline)', margin: '4px 6px' }} />
 
-                    {/* Toggle Ads in dropdown as well */}
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        fontSize: 12.5,
-                      }}
-                    >
-                      <span style={{ color: 'var(--ink-soft)' }}>Presentation Ads</span>
-                      <button
-                        type="button"
-                        onClick={toggleAds}
-                        style={{
-                          padding: '3px 8px',
-                          fontSize: 10.5,
-                          fontWeight: 800,
-                          borderRadius: 6,
-                          border: 'none',
-                          background: adsVisible ? 'var(--brand)' : 'var(--hairline)',
-                          color: adsVisible ? '#fff' : 'var(--ink-soft)',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {adsVisible ? 'ON' : 'OFF'}
-                      </button>
-                    </div>
-
-                    <div style={{ height: 1, background: 'var(--hairline)', margin: '4px 6px' }} />
-
                     <button
                       type="button"
                       onClick={() => {

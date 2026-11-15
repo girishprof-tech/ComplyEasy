@@ -7,14 +7,12 @@ import { PageError, PageLoading } from '@/shared/components/PageStates';
 import { Field } from '@/shared/components/Field';
 import { AdBanner } from '@/shared/components/AdBanner';
 import { BusinessLogo } from '@/shared/components/BusinessLogo';
-import { useDemoAds } from '@/shared/hooks/useDemoAds';
 import { errorMessage } from '@/shared/lib/errors';
 
 type SettingsTab = 'profile' | 'security' | 'notifications' | 'plan';
 
 export function SettingsPage() {
   const { me, setMe } = useAuth();
-  const { adsVisible, toggleAds } = useDemoAds();
   const [tab, setTab] = useState<SettingsTab>('profile');
   const [profile, setProfile] = useState<UserProfileDetail | null>(null);
   const [account, setAccount] = useState<AccountSummary | null>(null);
@@ -626,51 +624,10 @@ export function SettingsPage() {
                   )}
                 </div>
               </div>
-
-              {/* Quick Presentation Ads Visibility Switch */}
-              <div
-                style={{
-                  border: '1px solid var(--hairline)',
-                  borderRadius: 14,
-                  padding: 16,
-                  background: 'var(--surface-tint)',
-                  marginTop: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 16,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <div>
-                  <h4 style={{ fontSize: 13.5, margin: '0 0 3px', fontWeight: 700 }}>
-                    🎯 Presentation Demo Ads Visibility
-                  </h4>
-                  <p style={{ margin: 0, fontSize: 12, color: 'var(--ink-soft)' }}>
-                    Instantly show or hide all sponsored demo banners across the app with one click.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className={adsVisible ? 'btn btn-primary' : 'btn btn-secondary'}
-                  onClick={toggleAds}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    padding: '6px 14px',
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                  }}
-                >
-                  <span>{adsVisible ? '📢 Ads: VISIBLE' : '🔇 Ads: HIDDEN'}</span>
-                  <span>(Click to {adsVisible ? 'Hide' : 'Show'})</span>
-                </button>
-              </div>
             </div>
           )}
 
-          {/* Interactive Trailer Teaser */}
+          {/* Standard Ad Slot */}
           <AdBanner account={account} variant="trailer" />
         </div>
 
